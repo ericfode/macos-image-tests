@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'pp'
 require 'open3'
-
+require 'yaml'
 
 # Run the given command and return stdout, stderr, and a boolean indicating if
 # the command was successful.
@@ -73,4 +73,4 @@ versions = {
   simulators: simulators
 }
 
-pp(versions)
+puts(versions.to_yaml)

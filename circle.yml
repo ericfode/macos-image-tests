@@ -1,0 +1,7 @@
+machine:
+  environment:
+    XCODE_SCHEME: 'scheme'
+    XCODE_WORKSPACE: 'workspace'
+test:
+  override:
+    - ./software_versions.rb
