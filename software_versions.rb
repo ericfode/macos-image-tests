@@ -6,9 +6,7 @@ require 'json'
 # the command was successful.
 def system3(*cmd)
   begin
-    puts("$ #{cmd.join(' ')}")
     stdout, stderr, status = Open3.capture3(*cmd)
-    puts('done')
     [stdout, stderr, status.success?]
   rescue
     [$/, $/, nil]
