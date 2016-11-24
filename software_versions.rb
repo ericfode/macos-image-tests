@@ -46,7 +46,6 @@ def xcode()
   bundle_versions = paths.map do |path|
     plist = File.join(path, 'Contents', 'version.plist')
     instruments = File.join(path, 'Contents', 'Developer', 'usr', 'bin', 'instruments')
-    puts(plist)
     { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
       build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
       simulators: simulators(instruments),
@@ -60,6 +59,15 @@ def homebrew()
   output.each_with_object({}) do |line, h|
     name, *versions = line.split
     h[name] = versions
+  end
+end
+
+def gems()
+  versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
+  versions.map do |g|
+    name, version = g.match(/(\S.*) \((\S.*)\)/).captures
+    {name: name,
+     version: version}
   end
 end
 
@@ -79,6 +87,7 @@ end
 versions = {
   os: os,
   tools: tools,
+  gems: gems,
   homebrew: homebrew,
   xcode: xcode,
 }
