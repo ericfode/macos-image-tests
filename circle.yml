@@ -4,4 +4,4 @@ machine:
     XCODE_WORKSPACE: 'workspace'
 test:
   override:
-    - ./software_versions.rb
+    - ./software_versions.rb > $CIRCLE_ARTIFACTS/software_versions.json

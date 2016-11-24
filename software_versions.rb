@@ -71,6 +71,16 @@ def gems()
   end
 end
 
+def screensaver()
+  {
+    ask_for_password: output('defaults read com.apple.screensaver askForPassword'),
+  }
+end
+
+def input()
+  { keyboard_layout: output('defaults read /Library/Preferences/com.apple.HIToolbox.plist  AppleCurrentKeyboardLayoutInputSourceID') }
+end
+
 def tools()
   {
     ruby: output('ruby -v'),
@@ -86,6 +96,8 @@ end
 
 versions = {
   os: os,
+  screensaver: screensaver,
+  input: input,
   tools: tools,
   gems: gems,
   homebrew: homebrew,
