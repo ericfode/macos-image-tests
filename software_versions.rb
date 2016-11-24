@@ -7,6 +7,7 @@ require 'yaml'
 # the command was successful.
 def system3(*cmd)
   begin
+    puts("$ #{cmd.join(' ')}")
     stdout, stderr, status = Open3.capture3(*cmd)
     [stdout, stderr, status.success?]
   rescue
