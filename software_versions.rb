@@ -55,6 +55,14 @@ def xcode()
   bundle_versions
 end
 
+def homebrew()
+  output = `brew list --versions`.lines.map(&:strip)
+  output.each_with_object({}) do |line, h|
+    name, *versions = line.split
+    h[name] = versions
+  end
+end
+
 def tools()
   {
     ruby: output('ruby -v'),
@@ -71,6 +79,7 @@ end
 versions = {
   os: os,
   tools: tools,
+  homebrew: homebrew,
   xcode: xcode,
 }
 
