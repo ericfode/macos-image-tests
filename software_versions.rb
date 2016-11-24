@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
-require 'pp'
 require 'open3'
-require 'yaml'
+require 'json'
 
 # Run the given command and return stdout, stderr, and a boolean indicating if
 # the command was successful.
@@ -34,26 +33,29 @@ def os()
   end
 end
 
-def xcode()
-  versions = `ls /Applications/Xcode*/Contents/version.plist`.lines.map(&:strip)
-  bundle_versions = versions.map do |path|
-    {version:       output('defaults', 'read', path, 'CFBundleShortVersionString'),
-     build_version: output('defaults', 'read', path, 'ProductBuildVersion')}
-  end
-  bundle_versions
-end
-
-
-def simulators()
-  output = `instruments -s devices`.lines
-  lines = output.map(&:strip).select {|s| s.match(/\(Simulator\)$/)}
-  lines.map do |s|
-    name, uuid = s.match(/(.*) \[(\S.*)\]/).captures
+def simulators(instruments_path)
+  simulator_pattern = /(.*) \[(\S.*)\]/
+  output =  output(instruments_path, '-s', 'devices').lines
+  output.select {|s| s.match(simulator_pattern)}.map  do |s|
+    name, uuid = s.match(simulator_pattern).captures
     { name: name,
       uuid: uuid }
   end
 end
 
+def xcode()
+  paths = `find /Applications/ -regex '/Applications//Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
+  bundle_versions = paths.map do |path|
+    plist = File.join(path, 'Contents', 'version.plist')
+    instruments = File.join(path, 'Contents', 'Developer', 'usr', 'bin', 'instruments')
+    puts(plist)
+    { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
+      build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
+      simulators: simulators(instruments),
+    }
+  end
+  bundle_versions
+end
 
 def tools()
   {
@@ -72,7 +74,6 @@ versions = {
   os: os,
   tools: tools,
   xcode: xcode,
-  simulators: simulators
 }
 
-puts(versions.to_yaml)
+puts(JSON.pretty_generate(versions))
