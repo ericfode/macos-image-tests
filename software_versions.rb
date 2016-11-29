@@ -71,14 +71,11 @@ def gems()
   end
 end
 
-def screensaver()
-  {
-    ask_for_password: output('defaults read com.apple.screensaver askForPassword'),
+def environment()
+  { keyboard_layout: output('defaults read /Library/Preferences/com.apple.HIToolbox.plist  AppleCurrentKeyboardLayoutInputSourceID'),
+    timezone: output('date +%Z'),
+    screensaver_ask_for_password: output('defaults read com.apple.screensaver askForPassword'),
   }
-end
-
-def input()
-  { keyboard_layout: output('defaults read /Library/Preferences/com.apple.HIToolbox.plist  AppleCurrentKeyboardLayoutInputSourceID') }
 end
 
 def tools()
@@ -86,18 +83,12 @@ def tools()
     ruby: output('ruby -v'),
     python: output('python --version 2>&1'),
     xctool: output('xctool --version'),
-    cocoapods: output('pod --version'),
-    xcpretty: output('xcpretty --version'),
-    fastlane: output('fastlane --version'),
-    carthage: output('carthage version'),
-    shenzhen: output('ipa --version'),
   }
 end
 
 versions = {
   os: os,
-  screensaver: screensaver,
-  input: input,
+  environment: environment,
   tools: tools,
   gems: gems,
   homebrew: homebrew,
