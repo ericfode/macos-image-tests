@@ -3,19 +3,37 @@
     "type": "object",
     "properties": {
         "os": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "system_version": {
+                    "type": "string"
+                },
+                "kernel_version": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "system_version",
+                "kernel_version"
+            ]
         },
         "environment": {
             "type": "object",
             "properties": {
                 "keyboard_layout": {
-                    "type": "string"
+                    "enum": [
+                        "com.apple.keylayout.Irish"
+                    ]
                 },
                 "timezone": {
-                    "type": "string"
+                    "enum": [
+                        "GMT"
+                    ]
                 },
                 "screensaver_ask_for_password": {
-                    "type": "string"
+                    "enum": [
+                        "1"
+                    ]
                 }
             },
             "required": [
