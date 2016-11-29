@@ -62,13 +62,17 @@ def homebrew()
   end
 end
 
-def gems()
-  versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
-  versions.map do |g|
+def ruby()
+  gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
+  gems = gem_versions.map do |g|
     name, version = g.match(/(\S.*) \((\S.*)\)/).captures
     {name: name,
      version: version}
   end
+  {
+    version: output('ruby -v'),
+    gems: gems
+  }
 end
 
 def environment()
@@ -80,7 +84,6 @@ end
 
 def tools()
   {
-    ruby: output('ruby -v'),
     python: output('python --version 2>&1'),
     xctool: output('xctool --version'),
   }
@@ -90,7 +93,7 @@ versions = {
   os: os,
   environment: environment,
   tools: tools,
-  gems: gems,
+  ruby: ruby,
   homebrew: homebrew,
   xcode: xcode,
 }

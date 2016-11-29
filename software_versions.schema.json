@@ -1,0 +1,15 @@
+{
+    "title": "macOS Image",
+    "type": "object",
+    "properties": {
+        "os": {
+            "type": "object"
+        },
+        "environment": {
+            "type": "object"
+        },
+        "ruby": {
+            "type": "object"
+        }
+    }
+}

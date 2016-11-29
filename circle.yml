@@ -2,6 +2,10 @@ machine:
   environment:
     XCODE_SCHEME: 'scheme'
     XCODE_WORKSPACE: 'workspace'
+dependencies:
+  override:
+    - sudo pip install jsonschema
 test:
   override:
     - ./software_versions.rb > $CIRCLE_ARTIFACTS/software_versions.json
+    - jsonschema -i $CIRCLE_ARTIFACTS/software_versions.json software_versions.schema.json
