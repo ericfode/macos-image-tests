@@ -36,7 +36,7 @@
                 },
                 "screensaver_ask_for_password": {
                     "enum": [
-                        "1"
+                        "0"
                     ]
                 }
             },
@@ -52,7 +52,7 @@
             "properties": {
                 "version": {
                     "enum": [
-                        "ruby 2.0.0p648 (2015-12-16 revision 53162) [universal.x86_64-darwin16]"
+                        "ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]"
                     ]
                 },
                 "gems": {
