@@ -6,7 +6,24 @@
             "type": "object"
         },
         "environment": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "keyboard_layout": {
+                    "type": "string"
+                },
+                "timezone": {
+                    "type": "string"
+                },
+                "screensaver_ask_for_password": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "keyboard_layout",
+                "screensaver_ask_for_password",
+                "timezone"
+            ],
+            "additionalProperties": false
         },
         "ruby": {
             "type": "object"
@@ -21,7 +38,6 @@
             "type": "object"
         }
     },
-
     "required": [
         "os",
         "environment",
