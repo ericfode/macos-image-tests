@@ -10,6 +10,25 @@
         },
         "ruby": {
             "type": "object"
+        },
+        "tools": {
+            "type": "object"
+        },
+        "xcode": {
+            "type": "array"
+        },
+        "homebrew": {
+            "type": "object"
         }
-    }
+    },
+
+    "required": [
+        "os",
+        "environment",
+        "ruby",
+        "tools",
+        "xcode",
+        "homebrew"
+    ],
+    "additionalProperties": false
 }
