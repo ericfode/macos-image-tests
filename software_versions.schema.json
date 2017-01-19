@@ -80,7 +80,19 @@
             ]
         },
         "tools": {
-            "type": "object"
+            "type": "object",
+            "properties": {
+                "python": {
+                    "enum": [
+                        "Python 2.7.10"
+                    ]
+                },
+                "xctool": {
+                    "enum": [
+                        "Python 2.7.10"
+                    ]
+                }
+            }
         },
         "xcode": {
             "type": "array",
