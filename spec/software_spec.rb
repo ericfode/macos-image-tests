@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'rspec/json_expectations'
 
 describe 'software' do
@@ -49,8 +50,10 @@ describe 'software' do
         build_version: "8B62"
       }, {
         version: "8.2.1",
-        build_version: "8C1002"
+        build_version: "8C1002",
+        simulators: simulators('8.2.1')
       }]
     )
   end
+  
 end
