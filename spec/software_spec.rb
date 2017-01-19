@@ -28,6 +28,18 @@ describe 'software' do
     )
   end
 
+
+  # TODO:
+  # https://www.relishapp.com/waterlink/rspec-json-expectations/docs/json-expectations/array-matching-support-for-include-json-matcher#expecting-wrong-json-string-with-array-at-root-to-fully-include-json-with-arrays
+  # There is a strange issue with include_json:
+  # It seems to allow fewer elements in the expected array versus the given input.
+  # So expect
+  #   foo: [1,2,3,4]
+  # to include_json
+  #   foo: [1,2,3]
+  # will pass.
+  # This means if a new simulator appears in the image at the end of the simulators
+  # list, and we don't expect it, these tests will still pass.
   it 'has xcode' do
     expect(software).to include_json(
       xcode: [{
@@ -35,13 +47,16 @@ describe 'software' do
         build_version: "7A220"
       }, {
         version: "7.1",
-        build_version: "7B91b"
+        build_version: "7B91b",
+        simulators: simulators('7.1')
       }, {
         version: "7.2",
-        build_version: "7C68"
+        build_version: "7C68",
+        simulators: simulators('7.2')
       }, {
         version: "7.3",
-        build_version: "7D175"
+        build_version: "7D175",
+        simulators: simulators('7.3')
       }, {
         version: "8.0",
         build_version: "8A218a",
