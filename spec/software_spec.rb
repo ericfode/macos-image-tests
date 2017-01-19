@@ -44,7 +44,8 @@ describe 'software' do
     expect(software).to include_json(
       xcode: [{
         version: "7.0",
-        build_version: "7A220"
+        build_version: "7A220",
+        simulators: simulators('7.0')
       }, {
         version: "7.1",
         build_version: "7B91b",
