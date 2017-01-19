@@ -44,10 +44,12 @@ describe 'software' do
         build_version: "7D175"
       }, {
         version: "8.0",
-        build_version: "8A218a"
+        build_version: "8A218a",
+        simulators: simulators('8.0')
       }, {
         version: "8.1",
-        build_version: "8B62"
+        build_version: "8B62",
+        simulators: simulators('8.1')
       }, {
         version: "8.2.1",
         build_version: "8C1002",
