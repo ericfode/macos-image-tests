@@ -23,7 +23,7 @@ describe 'software' do
     end
 
     expected_gems.each do |gem, version|
-      expect(installed[gem]).to eq(version), lambda { "expected #{gem} to be version #{version}"}
+      expect(installed[gem]).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed[gem]}"}
     end
     
   end
