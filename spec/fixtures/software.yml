@@ -1,6 +1,6 @@
 os:
-  system_version: OS X 10.11.6 (15G1108)
-  kernel_version: Darwin 15.6.0
+  system_version: macOS 10.12.3 (16D32)
+  kernel_version: Darwin 16.4.0
   boot_volume: Macintosh HD
   boot_mode: Normal
   user_name: "Distiller (distiller)"
