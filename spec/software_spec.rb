@@ -52,11 +52,17 @@ describe 'software' do
 
      it "#{version} has all simulators" do
 
-      expected_names =  xcode(version)['simulators'].map {|s| s['name']} + [software['os']['computer_name']]
+       expected = xcode(version)
+       actual = software['xcode'][i]
 
-      expect(software['xcode'][i]['simulators'].map {|s| s['name']} ).to match_array(expected_names)
+       expect(expected['version']).to eq(actual['version'])
+       expect(expected['build_version']).to eq(actual['build_version'])
+
+       expected_names =  expected['simulators'] + [software['os']['computer_name']]
+
+       expect(actual['simulators']).to match_array(expected_names)
 
      end
-  end
-  
+   end
+
 end
