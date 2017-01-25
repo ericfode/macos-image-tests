@@ -44,30 +44,13 @@ describe 'software' do
     expect(software).to include_json(
       xcode: [
         xcode('xcode_70.yml'),
-        xcode('xcode_71.yml')
+        xcode('xcode_71.yml'),
+        xcode('xcode_72.yml'),
+        xcode('xcode_73.yml'),
+        xcode('xcode_80.yml'),
+        xcode('xcode_81.yml'),
+        xcode('xcode_821.yml')
       ])
-
-      [{
-        version: "7.2",
-        build_version: "7C68",
-        simulators: xcode('xcode_72.yml')
-      }, {
-        version: "7.3",
-        build_version: "7D175",
-        simulators: xcode('xcode_73.yml')
-      }, {
-        version: "8.0",
-        build_version: "8A218a",
-        simulators: xcode('xcode_80.yml')
-      }, {
-        version: "8.1",
-        build_version: "8B62",
-        simulators: xcode('xcode_81.yml')
-      }, {
-        version: "8.2.1",
-        build_version: "8C1002",
-        simulators: xcode('xcode_821.yml')
-      }]
   end
   
 end
