@@ -6,14 +6,10 @@
             "type": "object",
             "properties": {
                 "system_version": {
-                    "enum": [
-                        "OS X 10.11.6 (15G1108)"
-                    ]
+                    "type": "string"
                 },
                 "kernel_version": {
-                    "enum": [
-                        "Darwin 15.6.0"
-                    ]
+                    "type": "string"
                 }
             },
             "required": [
@@ -25,19 +21,13 @@
             "type": "object",
             "properties": {
                 "keyboard_layout": {
-                    "enum": [
-                        "com.apple.keylayout.US"
-                    ]
+                    "type": "string"
                 },
                 "timezone": {
-                    "enum": [
-                        "PST"
-                    ]
+                    "type": "string"
                 },
                 "screensaver_ask_for_password": {
-                    "enum": [
-                        "0"
-                    ]
+                    "type": "string"
                 }
             },
             "required": [
@@ -51,9 +41,7 @@
             "type": "object",
             "properties": {
                 "version": {
-                    "enum": [
-                        "ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]"
-                    ]
+                    "type": "string"
                 },
                 "gems": {
                     "type": "array",
@@ -83,14 +71,10 @@
             "type": "object",
             "properties": {
                 "python": {
-                    "enum": [
-                        "Python 2.7.10"
-                    ]
+                    "type": "string"
                 },
                 "xctool": {
-                    "enum": [
-                        "0.2.9"
-                    ]
+                    "type": "string"
                 }
             }
         },
