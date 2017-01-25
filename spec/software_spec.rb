@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'rspec/json_expectations'
 require 'json'
+require 'yaml'
 
 describe 'software' do
 
@@ -46,17 +47,12 @@ describe 'software' do
   # This means if a new simulator appears in the image at the end of the simulators
   # list, and we don't expect it, these tests will still pass.
 
-  ['xcode_70.yml',
-   'xcode_71.yml',
-   'xcode_72.yml',
-   'xcode_73.yml',
-   'xcode_80.yml',
-   'xcode_81.yml',
-   'xcode_821.yml'].each_with_index do |version, i|
+  Dir.glob('spec/fixtures/xcode/xcode_*.yml')
+    .each_with_index do |version, i|
 
      it "#{version} has all simulators" do
 
-       expected = xcode(version)
+       expected = YAML::load(File.read(version))
        actual = software['xcode'][i]
 
        expect(expected['version']).to eq(actual['version'])
