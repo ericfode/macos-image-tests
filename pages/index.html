@@ -24,17 +24,68 @@ title: CircleCI OSX Container Software
             <td>Timezone</td>
             <td>{{ site.data.software.environment.timezone }}</td>
         </tr>
+        <tr>
+            <td>Ruby</td>
+            <td>{{ site.data.software.ruby.version }}</td>
+        </tr>
+        <tr>
+            <td>Python</td>
+            <td>{{ site.data.software.tools.python }}</td>
+        </tr>
+        <tr>
+            <td>Fastlane</td>
+            <td>{{ site.data.gems.fastlane }}</td>
+        </tr>
+        <tr>
+            <td>cocoapods</td>
+            <td>{{ site.data.gems.cocoapods }}</td>
+        </tr>
+        <tr>
+            <td>carthage</td>
+            <td>{{ site.data.gems.carthage }}</td>
+        </tr>
+        <tr>
+            <td>shenzhen</td>
+            <td>{{ site.data.gems.shenzhen }}</td>
+        </tr>
+        <tr>
+            <td>xcpretty</td>
+            <td>{{ site.data.gems.xcpretty }}</td>
+        </tr>
+        <tr>
+            <td>Facebook xctool</td>
+            <td>{{ site.data.software.tools.xctool }}</td>
+        </tr>
+        
+        <tr>
+            <td>Xcode</td>
+            <td>
+                <ul>
+                {% for xcode in site.data.xcode reversed %}
+                <li>{{ xcode['version'] }} Build {{ xcode['build_version'] }}
+                </li>
+                {% endfor %}
+                </ul>
+                </td>
+
+        </tr>
+        
+        
+
     </tbody>
 </table>
 
 <h2>Xcode</h2>
 
-{% for xcode in site.data.xcode %}
 
 
+{% for xcode in site.data.xcode reversed %}
 
-<h3>Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
-<ul>
+<h3 id="{{ xcode['version'] }}">Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
+With Xcode {{ xcode['version'] }} we pre-install the following simulators:
+
+<ul class="simulators">
+    
     {% for sim in xcode['simulators'] %}
     <li>
         {{ sim }}

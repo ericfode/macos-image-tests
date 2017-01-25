@@ -28,6 +28,7 @@ module Simulators
         .map    { |x| x.present    }
       site.data['xcode'] = xcode
       site.data['software'] = YAML::load(File.read('../spec/fixtures/software.yml'))
+      site.data['gems'] = YAML::load(File.read('../spec/fixtures/gems.yml'))
     end
 
   end

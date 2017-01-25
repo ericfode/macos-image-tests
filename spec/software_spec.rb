@@ -6,6 +6,7 @@ require 'yaml'
 describe 'software' do
 
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
+  let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
 
   it 'has an os' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
@@ -13,6 +14,18 @@ describe 'software' do
       expect(software[key]).to include_hash(value)
     end
 
+  end
+  
+  it 'has the right gems' do
+    
+    installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
+      hsh[gem['name']] = gem['version']
+    end
+
+    expected_gems.each do |gem, version|
+      expect(installed[gem]).to eq(version), lambda { "expected #{gem} to be version #{version}"}
+    end
+    
   end
 
   # TODO:
