@@ -22,14 +22,11 @@ module Simulators
   class Generator < Jekyll::Generator
 
     def generate(site)
-      puts(site.data.inspect)
       xcode = Dir.entries(PATH)
         .map    { |f| Xcode.new(f) }
         .select { |x| x.exists?    }
         .map    { |x| x.present    }
       site.data['xcode'] = xcode
-      puts(xcode)
-      puts(site.data.inspect)
     end
 
   end
