@@ -7,6 +7,7 @@ describe 'software' do
 
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
   let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
+  let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
 
   it 'has an os' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
@@ -17,15 +18,21 @@ describe 'software' do
   end
   
   it 'has the right gems' do
-    
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
       hsh[gem['name']] = gem['version']
     end
-
     expected_gems.each do |gem, version|
       expect(installed[gem]).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed[gem]}"}
     end
-    
+  end
+
+  it 'has the right homebrew formulae' do
+    installed = software['homebrew'].each_with_object({}) do |(name, versions), hsh|
+      hsh[name] = versions
+    end
+    expected_formulae.each do |name, versions|
+      expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
+    end
   end
 
   # TODO:

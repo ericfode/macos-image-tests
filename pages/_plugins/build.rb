@@ -29,6 +29,7 @@ module Simulators
       site.data['xcode'] = xcode
       site.data['software'] = YAML::load(File.read('../spec/fixtures/software.yml'))
       site.data['gems'] = YAML::load(File.read('../spec/fixtures/gems.yml'))
+      site.data['homebrew'] = YAML::load(File.read('../spec/fixtures/homebrew.yml'))
     end
 
   end
