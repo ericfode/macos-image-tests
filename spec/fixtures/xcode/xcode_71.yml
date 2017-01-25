@@ -1,7 +1,6 @@
 version: "7.1"
 build_version: "7B91b"
 simulators:
-  - {}
   - name: Apple TV 1080p (10.0)
   - name: Apple TV 1080p (9.2)
   - name: iPad 2 (8.4)

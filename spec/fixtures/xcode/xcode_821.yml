@@ -1,7 +1,6 @@
 version: "8.2.1"
 build_version: "8C1002"
 simulators:
-  - {}
   - name: Apple TV 1080p (10.0)
   - name: Apple TV 1080p (10.1)
   - name: Apple TV 1080p (9.2)

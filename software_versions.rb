@@ -34,11 +34,12 @@ end
 def simulators(instruments_path)
   simulator_pattern = /(.*) \[(\S.*)\]/
   output =  output(instruments_path, '-s', 'devices').lines
-  output.select {|s| s.match(simulator_pattern)}.map  do |s|
+  output = output.select {|s| s.match(simulator_pattern)}.map  do |s|
     name, uuid = s.match(simulator_pattern).captures
     { name: name,
       uuid: uuid }
   end
+  output = output.sort_by {|sim| sim[:name] }
 end
 
 def xcode()

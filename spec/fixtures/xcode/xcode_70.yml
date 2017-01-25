@@ -1,7 +1,6 @@
 version: "7.0"
 build_version: "7A220"
 simulators:
-  - {}
   - name: iPad 2 (8.4)
   - name: iPad 2 (9.0)
   - name: iPad 2 (9.2)

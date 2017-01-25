@@ -1,9 +1,10 @@
 require 'spec_helper'
 require 'rspec/json_expectations'
+require 'json'
 
 describe 'software' do
 
-  let(:software) { File.read(ENV['SOFTWARE']) }
+  let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
 
   it 'has an os' do
     expect(software).to include_json(
@@ -40,17 +41,22 @@ describe 'software' do
   # will pass.
   # This means if a new simulator appears in the image at the end of the simulators
   # list, and we don't expect it, these tests will still pass.
-  it 'has xcode' do
-    expect(software).to include_json(
-      xcode: [
-        xcode('xcode_70.yml'),
-        xcode('xcode_71.yml'),
-        xcode('xcode_72.yml'),
-        xcode('xcode_73.yml'),
-        xcode('xcode_80.yml'),
-        xcode('xcode_81.yml'),
-        xcode('xcode_821.yml')
-      ])
+
+  ['xcode_70.yml',
+   'xcode_71.yml',
+   'xcode_72.yml',
+   'xcode_73.yml',
+   'xcode_80.yml',
+   'xcode_81.yml',
+   'xcode_821.yml'].each_with_index do |version, i|
+
+     it "#{version} has all simulators" do
+
+      expected_names =  xcode(version)['simulators'].map {|s| s['name']} + [software['os']['computer_name']]
+
+      expect(software['xcode'][i]['simulators'].map {|s| s['name']} ).to match_array(expected_names)
+
+     end
   end
   
 end

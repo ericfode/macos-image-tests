@@ -1,7 +1,6 @@
 version: "8.1"
 build_version: "8B62"
 simulators:
-  - {}
   - name: Apple TV 1080p (10.0)
   - name: Apple TV 1080p (9.2)
   - name: Apple Watch - 38mm (3.1)
