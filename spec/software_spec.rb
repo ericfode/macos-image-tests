@@ -45,31 +45,31 @@ describe 'software' do
       xcode: [{
         version: "7.0",
         build_version: "7A220",
-        simulators: simulators('7.0')
+        simulators: simulators('xcode_70.yml')
       }, {
         version: "7.1",
         build_version: "7B91b",
-        simulators: simulators('7.1')
+        simulators: simulators('xcode_71.yml')
       }, {
         version: "7.2",
         build_version: "7C68",
-        simulators: simulators('7.2')
+        simulators: simulators('xcode_72.yml')
       }, {
         version: "7.3",
         build_version: "7D175",
-        simulators: simulators('7.3')
+        simulators: simulators('xcode_73.yml')
       }, {
         version: "8.0",
         build_version: "8A218a",
-        simulators: simulators('8.0')
+        simulators: simulators('xcode_80.yml')
       }, {
         version: "8.1",
         build_version: "8B62",
-        simulators: simulators('8.1')
+        simulators: simulators('xcode_81.yml')
       }, {
         version: "8.2.1",
         build_version: "8C1002",
-        simulators: simulators('8.2.1')
+        simulators: simulators('xcode_821.yml')
       }]
     )
   end
