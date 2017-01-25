@@ -3,12 +3,12 @@
 <h1>OSX Containers</h1>
 
 {% for xcode in site.data.xcode %}
-<h2>Xcode {{ xcode.name }}</h2>
+<h2>Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h2>
 
 <ul>
     {% for sim in xcode['simulators'] %}
     <li>
-        {{sim}}
+        {{sim['name']}}
     </li>
     {% endfor %}
 </ul>
