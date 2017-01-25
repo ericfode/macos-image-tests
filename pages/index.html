@@ -1,0 +1,15 @@
+---
+---
+<h1>OSX Containers</h1>
+
+{% for xcode in site.data.xcode %}
+<h2>Xcode {{ xcode.name }}</h2>
+
+<ul>
+    {% for sim in xcode['simulators'] %}
+    <li>
+        {{sim}}
+    </li>
+    {% endfor %}
+</ul>
+{% endfor %}
