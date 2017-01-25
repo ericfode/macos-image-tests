@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'rspec/json_expectations'
+require 'rspec_candy/matchers'
 require 'json'
 require 'yaml'
 
@@ -8,30 +8,11 @@ describe 'software' do
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
 
   it 'has an os' do
-    expect(software).to include_json(
-      os:  {
-        system_version: "OS X 10.11.6 (15G1108)",
-        kernel_version: "Darwin 15.6.0",
-        boot_volume: "Macintosh HD",
-        boot_mode: "Normal",
-        user_name: "Distiller (distiller)",
-        secure_virtual_memory: "Enabled",
-        system_integrity_protection: "Enabled",
-      },
-      environment: {
-        keyboard_layout: "com.apple.keylayout.US",
-        timezone: "PST",
-        screensaver_ask_for_password: "0"
-      },
-      tools: {
-        python: "Python 2.7.10",
-        xctool: "0.2.9"
-      },
-      ruby: {
-        version: "ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]"
-      }
-       
-    )
+    expected = YAML::load(File.read('spec/fixtures/software.yml'))
+    keys = expected.each do |key, value|
+      expect(software[key]).to include_hash(value)
+    end
+
   end
 
 
