@@ -2,6 +2,10 @@ machine:
   environment:
     XCODE_SCHEME: 'scheme'
     XCODE_WORKSPACE: 'workspace'
+    GIT_DEPLOY_USERNAME: deploy_bot
+    GIT_DEPLOY_EMAIL:    deploy@circleci.com
+    GIT_DEPLOY_DIR:      pages/_site
+    GIT_DEPLOY_BRANCH:   gh-pages
 
 general:
   artifacts:
@@ -19,3 +23,9 @@ test:
     - jsonschema -i $CIRCLE_ARTIFACTS/software_versions.json software_versions.schema.json
     - bundle exec jekyll build:
         pwd: pages
+
+deployment:
+  publish:
+    branch: master
+    commands:
+      - scripts/deploy.sh
