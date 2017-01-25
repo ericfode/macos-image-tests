@@ -3,6 +3,7 @@ build_version: "7D175"
 app_location: "/Applications/Xcode-7.3.app"
 simulators:
   - Apple TV 1080p (10.0)
+  - Apple TV 1080p (10.1)
   - Apple TV 1080p (9.2)
   - iPad 2 (8.4)
   - iPad 2 (9.0)
@@ -65,6 +66,7 @@ simulators:
   - iPhone 6 Plus (9.3)
   - iPhone 6s (10.0)
   - iPhone 6s (10.1)
+  - iPhone 6s (10.2)
   - iPhone 6s (9.0)
   - iPhone 6s (9.2)
   - iPhone 6s (9.3)
