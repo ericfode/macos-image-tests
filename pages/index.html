@@ -1,12 +1,38 @@
 ---
-title: Circle CI OSX Container Software
+title: CircleCI OSX Container Software
 ---
 <h1>{{ page.title }}</h1>
 <p>This document describes the software present on <a href="https://circleci.com">CircleCI</a> OSX containers.
 
-{% for xcode in site.data.xcode %}
-<h2>Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h2>
+<h2>Operating System</h2>
 
+<table>
+    <tbody>
+        <tr>
+            <td>System Version</td>
+            <td>{{ site.data.software.os.system_version }}</td>
+        </tr>
+        <tr>
+            <td>Kernel Version</td>
+            <td>{{ site.data.software.os.kernel_version }}</td>
+        </tr>
+        <tr>
+            <td>Keyboard Layout</td>
+            <td>{{ site.data.software.environment.keyboard_layout }}</td>
+        </tr>
+        <tr>
+            <td>Timezone</td>
+            <td>{{ site.data.software.environment.timezone }}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+{% for xcode in site.data.xcode %}
+
+<h2>Xcode</h2>
+
+<h3>Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
 <ul>
     {% for sim in xcode['simulators'] %}
     <li>

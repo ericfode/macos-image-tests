@@ -27,6 +27,7 @@ module Simulators
         .select { |x| x.exists?    }
         .map    { |x| x.present    }
       site.data['xcode'] = xcode
+      site.data['software'] = YAML::load(File.read('../spec/fixtures/software.yml'))
     end
 
   end

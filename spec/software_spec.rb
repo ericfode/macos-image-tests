@@ -15,7 +15,6 @@ describe 'software' do
 
   end
 
-
   # TODO:
   # https://www.relishapp.com/waterlink/rspec-json-expectations/docs/json-expectations/array-matching-support-for-include-json-matcher#expecting-wrong-json-string-with-array-at-root-to-fully-include-json-with-arrays
   # There is a strange issue with include_json:
