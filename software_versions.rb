@@ -48,6 +48,7 @@ def xcode()
     { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
       build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
       simulators: simulators(instruments),
+      app_location: path
     }
   end
   bundle_versions
