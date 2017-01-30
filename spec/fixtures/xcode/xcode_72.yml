@@ -1,5 +1,6 @@
 version: "7.2"
 build_version: "7C68"
+app_location: "/Applications//Xcode-7.2.app"
 simulators:
   - Apple TV 1080p (10.0)
   - Apple TV 1080p (9.2)
