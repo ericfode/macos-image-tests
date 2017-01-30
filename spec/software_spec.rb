@@ -3,7 +3,7 @@ require 'rspec_candy/matchers'
 require 'json'
 require 'yaml'
 
-describe 'software' do
+describe 'image' do
 
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
   let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
@@ -11,10 +11,9 @@ describe 'software' do
 
   it 'has an os' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
-    keys = expected.each do |key, value|
+    expected.each do |key, value|
       expect(software[key]).to include_hash(value)
     end
-
   end
   
   it 'has the right gems' do
@@ -47,28 +46,34 @@ describe 'software' do
   # This means if a new simulator appears in the image at the end of the simulators
   # list, and we don't expect it, these tests will still pass.
 
-  Dir.glob('spec/fixtures/xcode/xcode_*.yml')
-    .each_with_index do |version, i|
+  describe 'xcode' do
+    Dir.glob('spec/fixtures/xcode/xcode_*.yml')
+      .each_with_index do |version, i|
 
-    describe version do
-      let(:expected) { YAML::load(File.read(version)) }
-      let(:actual) { software['xcode'][i] }
+      describe version do
+        let(:expected) { YAML::load(File.read(version)) }
+        let(:actual) { software['xcode'][i] }
 
-      it "is the correct build" do
-        expect(expected['version']).to eq(actual['version'])
-        expect(expected['build_version']).to eq(actual['build_version'])
-      end
+        it 'is the correct build' do
+          expect(expected['version']).to eq(actual['version'])
+          expect(expected['build_version']).to eq(actual['build_version'])
+        end
 
-      it "has all simulators" do
-        expected_names =  expected['simulators'] + [software['os']['computer_name']]
+        it 'has all simulators' do
+          expected_names =  expected['simulators'] + [software['os']['computer_name']]
 
-        expect(actual['simulators']).to match_array(expected_names)
-      end
+          expect(actual['simulators']).to match_array(expected_names)
+        end
 
-      it "is in the correct location" do
-        expect(expected['app_location']).to eq(actual['app_location'])
+        it 'is in the correct location' do
+          expect(expected['app_location']).to eq(actual['app_location'])
+        end
+
+        it 'can be selected as the current xcode' do
+          `sudo xcode-select --switch #{actual['app_location']}`
+          expect($?).to eq(0)
+        end
       end
     end
-   end
-
+  end
 end
