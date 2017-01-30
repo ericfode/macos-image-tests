@@ -57,6 +57,7 @@ describe 'software' do
 
        expect(expected['version']).to eq(actual['version'])
        expect(expected['build_version']).to eq(actual['build_version'])
+       expect(expected['app_location']).to eq(actual['app_location'])
 
        expected_names =  expected['simulators'] + [software['os']['computer_name']]
 
