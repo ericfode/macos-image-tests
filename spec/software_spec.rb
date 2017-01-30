@@ -50,20 +50,25 @@ describe 'software' do
   Dir.glob('spec/fixtures/xcode/xcode_*.yml')
     .each_with_index do |version, i|
 
-     it "#{version} has all simulators" do
+    describe version do
+      let(:expected) { YAML::load(File.read(version)) }
+      let(:actual) { software['xcode'][i] }
 
-       expected = YAML::load(File.read(version))
-       actual = software['xcode'][i]
+      it "is the correct build" do
+        expect(expected['version']).to eq(actual['version'])
+        expect(expected['build_version']).to eq(actual['build_version'])
+      end
 
-       expect(expected['version']).to eq(actual['version'])
-       expect(expected['build_version']).to eq(actual['build_version'])
-       expect(expected['app_location']).to eq(actual['app_location'])
+      it "has all simulators" do
+        expected_names =  expected['simulators'] + [software['os']['computer_name']]
 
-       expected_names =  expected['simulators'] + [software['os']['computer_name']]
+        expect(actual['simulators']).to match_array(expected_names)
+      end
 
-       expect(actual['simulators']).to match_array(expected_names)
-
-     end
+      it "is in the correct location" do
+        expect(expected['app_location']).to eq(actual['app_location'])
+      end
+    end
    end
 
 end
