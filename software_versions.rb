@@ -41,13 +41,14 @@ def simulators(instruments_path)
 end
 
 def xcode()
-  paths = `find /Applications/ -regex '/Applications//Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
+  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
   bundle_versions = paths.map do |path|
     plist = File.join(path, 'Contents', 'version.plist')
     instruments = File.join(path, 'Contents', 'Developer', 'usr', 'bin', 'instruments')
     { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
       build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
       simulators: simulators(instruments),
+      app_location: path
     }
   end
   bundle_versions

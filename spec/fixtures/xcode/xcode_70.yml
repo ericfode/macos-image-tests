@@ -1,5 +1,6 @@
 version: "7.0"
 build_version: "7A220"
+app_location: "/Applications/Xcode-7.0.app"
 simulators:
   - iPad 2 (8.4)
   - iPad 2 (9.0)
