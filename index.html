@@ -10,22 +10,30 @@
          CircleCI OSX Container Software 
     </title>
     <style type="text/css">
-    body { 
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin:40px auto;
-        max-width:650px;
-        line-height:1.6;
-        font-size:18px;
-        color:#444;
-        padding:0 10px
-        }
-        
-        h1, h2, h3 {
-            line-height:1.2
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 40px auto;
+            max-width: 650px;
+            line-height: 1.6;
+            font-size: 18px;
+            color: #444;
+            padding: 0 10px
         }
 
-        table, ul.simulators {
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2
+        }
+
+        table,
+        ul.simulators {
             font-size: 12pt;
+        }
+
+        th {
+            font-size: 1.5em;
+            line-height: 2em;
         }
 
         td {
@@ -33,7 +41,7 @@
             vertical-align: top;
         }
 
-        td:nth-child(1) {  
+        td:nth-child(1) {
             font-weight: bold;
             text-align: right;
         }
@@ -43,11 +51,15 @@
 <body>
 
     <h1>CircleCI OSX Container Software</h1>
-<p>This document describes the software present on <a href="https://circleci.com">CircleCI</a> OSX containers.
-
-<h2>Operating System</h2>
+<p>This document describes the software present on <a href="https://circleci.com">CircleCI</a> OSX containers.</p>
 
 <table>
+    <thead>
+        <tr>
+            <th colspan="2">Operating System</th>
+        </tr>
+    </thead>
+
     <tbody>
         <tr>
             <td>System Version</td>
@@ -65,6 +77,13 @@
             <td>Timezone</td>
             <td>PST</td>
         </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="2">Software</th>
+        </tr>
+    </thead>
+    <tbody>
         <tr>
             <td>Ruby</td>
             <td>ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]</td>
@@ -97,40 +116,43 @@
             <td>Facebook xctool</td>
             <td>0.2.9</td>
         </tr>
-        
+        <tr>
+            <td>Java</td>
+            <td>java version "1.8.0_60"<br />
+Java(TM) SE Runtime Environment (build 1.8.0_60-b27)<br />
+Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)</td>
+        </tr>
+
         <tr>
             <td>Xcode</td>
             <td>
                 <ul>
-                
-                <li>8.2.1 Build 8C1002
-                </li>
-                
-                <li>8.1 Build 8B62
-                </li>
-                
-                <li>8.0 Build 8A218a
-                </li>
-                
-                <li>7.3 Build 7D175
-                </li>
-                
-                <li>7.2 Build 7C68
-                </li>
-                
-                <li>7.1 Build 7B91b
-                </li>
-                
-                <li>7.0 Build 7A220
-                </li>
-                
+                    
+                    <li>8.2.1 Build 8C1002
+                    </li>
+                    
+                    <li>8.1 Build 8B62
+                    </li>
+                    
+                    <li>8.0 Build 8A218a
+                    </li>
+                    
+                    <li>7.3 Build 7D175
+                    </li>
+                    
+                    <li>7.2 Build 7C68
+                    </li>
+                    
+                    <li>7.1 Build 7B91b
+                    </li>
+                    
+                    <li>7.0 Build 7A220
+                    </li>
+                    
                 </ul>
-                </td>
+            </td>
 
         </tr>
-        
-        
-
     </tbody>
 </table>
 
@@ -144,7 +166,7 @@
 With Xcode 8.2.1 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -513,7 +535,7 @@ With Xcode 8.2.1 we pre-install the following simulators:
 With Xcode 8.1 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -822,7 +844,7 @@ With Xcode 8.1 we pre-install the following simulators:
 With Xcode 8.0 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -1131,7 +1153,7 @@ With Xcode 8.0 we pre-install the following simulators:
 With Xcode 7.3 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -1392,7 +1414,7 @@ With Xcode 7.3 we pre-install the following simulators:
 With Xcode 7.2 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -1653,7 +1675,7 @@ With Xcode 7.2 we pre-install the following simulators:
 With Xcode 7.1 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         Apple TV 1080p (10.0)
@@ -1914,7 +1936,7 @@ With Xcode 7.1 we pre-install the following simulators:
 With Xcode 7.0 we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     
     <li>
         iPad 2 (8.4)
@@ -2153,6 +2175,7 @@ With Xcode 7.0 we pre-install the following simulators:
     </li>
     
 </ul>
+
 
 
 </body>
