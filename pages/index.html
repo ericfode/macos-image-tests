@@ -7,7 +7,7 @@ title: CircleCI OSX Container Software
 <table>
     <thead>
         <tr>
-            <th colspan="2">Operating System</th>
+            <th colspan="2" class="underline">Operating System</th>
         </tr>
     </thead>
 
@@ -31,7 +31,7 @@ title: CircleCI OSX Container Software
     </tbody>
     <thead>
         <tr>
-            <th colspan="2">Software</th>
+            <th colspan="2" class="underline">Software</th>
         </tr>
     </thead>
     <tbody>
@@ -93,7 +93,7 @@ title: CircleCI OSX Container Software
 
 {% for xcode in site.data.xcode reversed %}
 
-<h3 id="{{ xcode['version'] }}">Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
+<h3 class="underline" id="{{ xcode['version'] }}">Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
 With Xcode {{ xcode['version'] }} we pre-install the following simulators:
 
 <ul class="simulators">
