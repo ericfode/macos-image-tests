@@ -10,22 +10,30 @@
         {% if page.title %} {{ page.title }} {% else %} {{ site.title }} {% endif %}
     </title>
     <style type="text/css">
-    body { 
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        margin:40px auto;
-        max-width:650px;
-        line-height:1.6;
-        font-size:18px;
-        color:#444;
-        padding:0 10px
-        }
-        
-        h1, h2, h3 {
-            line-height:1.2
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 40px auto;
+            max-width: 650px;
+            line-height: 1.6;
+            font-size: 18px;
+            color: #444;
+            padding: 0 10px
         }
 
-        table, ul.simulators {
+        h1,
+        h2,
+        h3 {
+            line-height: 1.2
+        }
+
+        table,
+        ul.simulators {
             font-size: 12pt;
+        }
+
+        th {
+            font-size: 1.5em;
+            line-height: 2em;
         }
 
         td {
@@ -33,7 +41,7 @@
             vertical-align: top;
         }
 
-        td:nth-child(1) {  
+        td:nth-child(1) {
             font-weight: bold;
             text-align: right;
         }

@@ -75,8 +75,12 @@
                 },
                 "xctool": {
                     "type": "string"
+                },
+                "java": {
+                    "type": "string"
                 }
-            }
+            },
+            "additionalProperties": false
         },
         "xcode": {
             "type": "array",

@@ -2,11 +2,15 @@
 title: CircleCI OSX Container Software
 ---
 <h1>{{ page.title }}</h1>
-<p>This document describes the software present on <a href="https://circleci.com">CircleCI</a> OSX containers.
-
-<h2>Operating System</h2>
+<p>This document describes the software present on <a href="https://circleci.com">CircleCI</a> OSX containers.</p>
 
 <table>
+    <thead>
+        <tr>
+            <th colspan="2">Operating System</th>
+        </tr>
+    </thead>
+
     <tbody>
         <tr>
             <td>System Version</td>
@@ -24,6 +28,13 @@ title: CircleCI OSX Container Software
             <td>Timezone</td>
             <td>{{ site.data.software.environment.timezone }}</td>
         </tr>
+    </tbody>
+    <thead>
+        <tr>
+            <th colspan="2">Software</th>
+        </tr>
+    </thead>
+    <tbody>
         <tr>
             <td>Ruby</td>
             <td>{{ site.data.software.ruby.version }}</td>
@@ -56,22 +67,23 @@ title: CircleCI OSX Container Software
             <td>Facebook xctool</td>
             <td>{{ site.data.software.tools.xctool }}</td>
         </tr>
-        
+        <tr>
+            <td>Java</td>
+            <td>{{ site.data.software.tools.java | newline_to_br}}</td>
+        </tr>
+
         <tr>
             <td>Xcode</td>
             <td>
                 <ul>
-                {% for xcode in site.data.xcode reversed %}
-                <li>{{ xcode['version'] }} Build {{ xcode['build_version'] }}
-                </li>
-                {% endfor %}
+                    {% for xcode in site.data.xcode reversed %}
+                    <li>{{ xcode['version'] }} Build {{ xcode['build_version'] }}
+                    </li>
+                    {% endfor %}
                 </ul>
-                </td>
+            </td>
 
         </tr>
-        
-        
-
     </tbody>
 </table>
 
@@ -85,7 +97,7 @@ title: CircleCI OSX Container Software
 With Xcode {{ xcode['version'] }} we pre-install the following simulators:
 
 <ul class="simulators">
-    
+
     {% for sim in xcode['simulators'] %}
     <li>
         {{ sim }}
