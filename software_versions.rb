@@ -44,9 +44,12 @@ def xcode()
   paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
   bundle_versions = paths.map do |path|
     plist = File.join(path, 'Contents', 'version.plist')
-    instruments = File.join(path, 'Contents', 'Developer', 'usr', 'bin', 'instruments')
+    bindir = File.join(path, 'Contents', 'Developer', 'usr', 'bin')
+    instruments = File.join(bindir, 'instruments')
+    xcodebuild  = File.join(bindir, 'xcodebuild')
     { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
       build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
+      first_launch_status: `#{xcodebuild} -checkFirstLaunchStatus ; echo $?`.to_i,
       simulators: simulators(instruments),
       app_location: path
     }

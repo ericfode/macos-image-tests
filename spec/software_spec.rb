@@ -15,7 +15,7 @@ describe 'image' do
       expect(software[key]).to include_hash(value)
     end
   end
-  
+
   it 'has the right gems' do
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
       hsh[gem['name']] = gem['version']
@@ -57,6 +57,7 @@ describe 'image' do
         it 'is the correct build' do
           expect(expected['version']).to eq(actual['version'])
           expect(expected['build_version']).to eq(actual['build_version'])
+          expect(expected['first_launch_status']).to eq(actual['first_launch_status'])
         end
 
         it 'has all simulators' do

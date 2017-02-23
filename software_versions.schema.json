@@ -87,6 +87,9 @@
             "items": {
                 "type": "object",
                 "properties": {
+                    "first_launch_status": {
+                      "type": "number"
+                    },
                     "simulators": {
                         "type": "array",
                         "items": {
@@ -97,7 +100,8 @@
                 "required": [
                     "version",
                     "build_version",
-                    "simulators"
+                    "simulators",
+                    "first_launch_status"
                 ]
             }
         },
