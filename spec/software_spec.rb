@@ -57,7 +57,11 @@ describe 'image' do
         it 'is the correct build' do
           expect(expected['version']).to eq(actual['version'])
           expect(expected['build_version']).to eq(actual['build_version'])
-          expect(expected['first_launch_status']).to eq(actual['first_launch_status'])
+        end
+
+        it 'has license accepted and tools installed' do
+          expect(actual['license_accepted']).to be true
+          expect(actual['tools_installed' ]).to be true
         end
 
         it 'has all simulators' do

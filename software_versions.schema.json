@@ -87,8 +87,11 @@
             "items": {
                 "type": "object",
                 "properties": {
-                    "first_launch_status": {
-                      "type": "number"
+                    "license_accepted": {
+                        "type": "boolean"
+                    },
+                    "tools_installed": {
+                        "type": "boolean"
                     },
                     "simulators": {
                         "type": "array",
@@ -101,7 +104,8 @@
                     "version",
                     "build_version",
                     "simulators",
-                    "first_launch_status"
+                    "license_accepted",
+                    "tools_installed"
                 ]
             }
         },

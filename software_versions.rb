@@ -49,7 +49,8 @@ def xcode()
     xcodebuild  = File.join(bindir, 'xcodebuild')
     { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
       build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
-      first_launch_status: `#{xcodebuild} -checkFirstLaunchStatus ; echo $?`.to_i,
+      license_accepted: `#{xcodebuild} -checkFirstLaunchStatus ; echo $?`.to_i == 0,
+      tools_installed: `sudo xcode-select -s #{path} && xcode-select --print-path > /dev/null ; echo $?`.to_i == 0,
       simulators: simulators(instruments),
       app_location: path
     }
