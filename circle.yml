@@ -1,7 +1,5 @@
 machine:
   environment:
-    XCODE_SCHEME: 'scheme'
-    XCODE_WORKSPACE: 'workspace'
     GIT_DEPLOY_USERNAME: deploy_bot
     GIT_DEPLOY_EMAIL:    deploy@circleci.com
     GIT_DEPLOY_DIR:      pages/_site
