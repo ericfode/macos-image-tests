@@ -4,6 +4,8 @@ machine:
     GIT_DEPLOY_EMAIL:    deploy@circleci.com
     GIT_DEPLOY_DIR:      pages/_site
     GIT_DEPLOY_BRANCH:   gh-pages
+  xcode:
+    version: 8.3
 
 general:
   artifacts:
