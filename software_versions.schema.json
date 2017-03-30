@@ -78,6 +78,9 @@
                 },
                 "java": {
                     "type": "string"
+                },
+                "parallel": {
+                    "type": "string"
                 }
             },
             "additionalProperties": false
