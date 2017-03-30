@@ -21,7 +21,8 @@ describe 'image' do
       hsh[gem['name']] = gem['version']
     end
     expected_gems.each do |gem, version|
-      expect(installed[gem]).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed[gem]}"}
+      installed_gem = installed[gem]
+      expect(installed_gem).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed_gem}"}
     end
   end
 

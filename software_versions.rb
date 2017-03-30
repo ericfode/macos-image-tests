@@ -88,7 +88,7 @@ end
 
 def tools()
   {
-    java:    output('java      --version 2>&1'),
+    java:    output('java       -version 2>&1'),
     python:  output('python    --version 2>&1'),
     pip:     output('pip       --version'),
     xctool:  output('xctool    --version'),

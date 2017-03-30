@@ -2,3 +2,4 @@ cocoapods: 1.1.1
 xcpretty: 0.2.4
 fastlane: 1.110.0
 shenzhen: 0.14.2
+bundler: 1.13.6
