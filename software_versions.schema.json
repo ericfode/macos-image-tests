@@ -73,6 +73,9 @@
                 "python": {
                     "type": "string"
                 },
+                "pip": {
+                    "type": "string"
+                },
                 "xctool": {
                     "type": "string"
                 },

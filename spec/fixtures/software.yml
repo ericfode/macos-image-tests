@@ -12,6 +12,7 @@ environment:
   screensaver_ask_for_password: "0"
 tools:
   python: Python 2.7.10
+  pip: pip 7.1.0 from /Library/Python/2.7/site-packages/pip-7.1.0-py2.7.egg (python 2.7)
   xctool: 0.2.9
   java: |-
     java version "1.8.0_60"
