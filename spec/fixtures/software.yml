@@ -21,3 +21,9 @@ tools:
   parallel: GNU parallel 20160922
 ruby:
   version: ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
+power_settings:
+  sleep: 0
+  # powernap: 0 TODO - add this
+  disksleep: 0
+  displaysleep: 0
+  hibernatemode: 0

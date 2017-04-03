@@ -3,18 +3,23 @@ require 'rspec_candy/matchers'
 require 'json'
 require 'yaml'
 
-describe 'image' do
+describe 'vm image' do
 
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
   let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
   let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
 
-  it 'has an os' do
+  describe 'system settings' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
     expected.each do |key, value|
-      expect(software[key]).to include_hash(value)
+
+      it "has the correct #{key}" do
+        expect(software[key]).to include_hash(value)
+      end
+
     end
   end
+
 
   it 'has the right gems' do
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|

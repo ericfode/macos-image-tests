@@ -96,6 +96,29 @@ def tools()
   }
 end
 
+def number_or_string(str)
+  Integer(str)
+rescue ArgumentError
+  str
+end
+
+def power_settings()
+  #  $ sudo pmset -g
+  # Currently in use:
+  #  standbydelay         10800
+  #  standby              1
+  #  halfdim              1
+  #  etc..
+
+  # Convert output to an array of key/value pairs
+  pairs = output('sudo pmset -g | grep "^ .*"').lines.map(&:split)
+
+  # Convert any number looking values to integers, else strings.
+  pairs.each_with_object({}) do |(key, value), hash|
+    hash[key] = number_or_string(value)
+  end
+end
+
 versions = {
   os: os,
   environment: environment,
@@ -103,6 +126,7 @@ versions = {
   ruby: ruby,
   homebrew: homebrew,
   xcode: xcode,
+  power_settings: power_settings
 }
 
 puts(JSON.pretty_generate(versions))
