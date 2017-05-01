@@ -13,6 +13,7 @@ general:
 
 dependencies:
   pre:
+    - brew install jq
     - sudo pip install jsonschema
 test:
   override:
@@ -23,6 +24,7 @@ test:
     - jsonschema -i $CIRCLE_ARTIFACTS/software_versions.json software_versions.schema.json
     - bundle exec jekyll build:
         pwd: pages
+    - jq '.image.sha1' software_versions.json
 
 deployment:
   publish:
