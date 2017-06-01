@@ -1,9 +1,10 @@
 machine:
   environment:
-    GIT_DEPLOY_USERNAME: deploy_bot
-    GIT_DEPLOY_EMAIL:    deploy@circleci.com
-    GIT_DEPLOY_DIR:      pages/_site
-    GIT_DEPLOY_BRANCH:   gh-pages
+    CACHE_MAX_AGE:  600
+    DEPLOY_DIR: pages/_site
+    SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
+  xcode:
+    version: 7.3
 
 general:
   artifacts:
@@ -11,19 +12,22 @@ general:
 
 dependencies:
   pre:
-    - sudo pip install jsonschema
+    - brew install jq
+    - sudo pip install jsonschema awscli --ignore-installed six
 test:
   override:
-    - ./software_versions.rb > $CIRCLE_ARTIFACTS/software_versions.json
-    - bundle exec rspec:
-        environment:
-          SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
-    - jsonschema -i $CIRCLE_ARTIFACTS/software_versions.json software_versions.schema.json
+    - ./software_versions.rb > $SOFTWARE
+    - bundle exec rspec
+    - jsonschema -i $SOFTWARE software_versions.schema.json
     - bundle exec jekyll build:
         pwd: pages
 
 deployment:
   publish:
-    branch: master
+    branch: [master, /release.*/]
     commands:
-      - scripts/deploy.sh
+      - echo aws s3 cp
+          --acl public-read
+          --cache-control "max-age=$CACHE_MAX_AGE"
+          --recursive $DEPLOY_DIR
+          s3://circle-macos-docs/image-manifest/`jq -r '.image.build' $SOFTWARE`
