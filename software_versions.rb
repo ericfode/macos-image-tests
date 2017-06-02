@@ -119,7 +119,18 @@ def power_settings()
   end
 end
 
+def image_info
+  raw = File.readlines("#{Dir.home}/.circle_image")
+    .map(&:strip)
+    .reject(&:empty?)
+    .map {|s| s.split(': ')}
+  raw.each_with_object({}) do |(key, value), hash|
+    hash[key.downcase] = value
+  end
+end
+
 versions = {
+  image: image_info,
   os: os,
   environment: environment,
   tools: tools,

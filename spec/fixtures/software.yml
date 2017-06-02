@@ -1,6 +1,6 @@
 os:
-  system_version: OS X 10.11.6 (15G1108)
-  kernel_version: Darwin 15.6.0
+  system_version: macOS 10.12.3 (16D32)
+  kernel_version: Darwin 16.4.0
   boot_volume: Macintosh HD
   boot_mode: Normal
   user_name: "Distiller (distiller)"
@@ -12,15 +12,14 @@ environment:
   screensaver_ask_for_password: "0"
 tools:
   python: Python 2.7.10
-  pip: pip 7.1.0 from /Library/Python/2.7/site-packages/pip-7.1.0-py2.7.egg (python 2.7)
-  xctool: 0.3.1
+  pip: pip 9.0.1 from /Library/Python/2.7/site-packages/pip-9.0.1-py2.7.egg (python 2.7)
   java: |-
-    java version "1.8.0_60"
-    Java(TM) SE Runtime Environment (build 1.8.0_60-b27)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.60-b23, mixed mode)
-  parallel: GNU parallel 20160922
+    java version "1.8.0_131"
+    Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+  parallel: GNU parallel 20170322
 ruby:
-  version: ruby 2.3.1p112 (2016-04-26 revision 54768) [x86_64-darwin15]
+  version: ruby 2.3.4p301 (2017-03-30 revision 58214) [x86_64-darwin16]
 power_settings:
   sleep: 0
   # powernap: 0 TODO - add this

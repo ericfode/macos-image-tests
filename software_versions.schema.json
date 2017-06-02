@@ -2,6 +2,23 @@
     "title": "macOS Image",
     "type": "object",
     "properties": {
+        "image": {
+            "type": "object",
+            "properties": {
+                "build": {
+                    "type": "string"
+                },
+                "date": {
+                    "type": "string"
+                },
+                "sha1": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "build", "date", "sha1"
+            ]
+        },
         "os": {
             "type": "object",
             "properties": {
@@ -129,6 +146,7 @@
         }
     },
     "required": [
+        "image",
         "os",
         "environment",
         "ruby",
