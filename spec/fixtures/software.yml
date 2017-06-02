@@ -14,15 +14,19 @@ tools:
   python: Python 2.7.10
   pip: pip 9.0.1 from /Library/Python/2.7/site-packages/pip-9.0.1-py2.7.egg (python 2.7)
   java: |-
-    java version "1.8.0_131"
-    Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
+    java version "1.8.0_121"
+    Java(TM) SE Runtime Environment (build 1.8.0_121-b13)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.121-b13, mixed mode)
   parallel: GNU parallel 20170322
 ruby:
   version: ruby 2.3.4p301 (2017-03-30 revision 58214) [x86_64-darwin16]
 power_settings:
+  hibernatemode: 0
+  womp: 1
+  networkoversleep: 0
   sleep: 0
-  # powernap: 0 TODO - add this
+  Sleep: "On"
+  ttyskeepawake: 1
+  hibernatefile: /var/vm/sleepimage
   disksleep: 0
   displaysleep: 0
-  hibernatemode: 0
