@@ -1,4 +1,4 @@
 cocoapods: 1.2.1
-xcpretty: 0.2.6
-fastlane: 2.27.0
-bundler: 1.14.6
+xcpretty: 0.2.8
+fastlane: 2.37.0
+bundler: 1.15.1
