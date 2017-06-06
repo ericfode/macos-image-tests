@@ -3,7 +3,6 @@ build_version: "9M136h"
 app_location: "/Applications/Xcode-9.0.app"
 simulators:
   - "Apple TV 1080p (11.0)"
-  - "Distiller's Mac"
   - "iPad (5th generation) (11.0)"
   - "iPad Air (11.0)"
   - "iPad Air 2 (11.0)"
