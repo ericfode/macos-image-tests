@@ -4,7 +4,7 @@ machine:
     DEPLOY_DIR: pages/_site
     SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
   xcode:
-    version: 8.3.2
+    version: 8.3.3
 
 general:
   artifacts:
