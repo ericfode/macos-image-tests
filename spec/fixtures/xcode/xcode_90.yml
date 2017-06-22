@@ -2,36 +2,36 @@ version: "9.0"
 build_version: "9M137d"
 app_location: "/Applications/Xcode-9.0.app"
 simulators:
-  - "Apple TV 1080p (11.0)",
-  - "iPad (5th generation) (11.0)",
-  - "iPad Air (10.2)",
-  - "iPad Air (11.0)",
-  - "iPad Air 2 (10.2)",
-  - "iPad Air 2 (11.0)",
-  - "iPad Pro (10.5-inch) (11.0)",
-  - "iPad Pro (12.9 inch) (10.2)",
-  - "iPad Pro (12.9-inch) (11.0)",
-  - "iPad Pro (12.9-inch) (2nd generation) (11.0)",
-  - "iPad Pro (9.7 inch) (10.2)",
-  - "iPad Pro (9.7-inch) (11.0)",
-  - "iPhone 5 (10.2)",
-  - "iPhone 5s (10.2)",
-  - "iPhone 5s (11.0)",
-  - "iPhone 6 (10.2)",
-  - "iPhone 6 (11.0)",
-  - "iPhone 6 Plus (10.2)",
-  - "iPhone 6 Plus (11.0)",
-  - "iPhone 6s (10.2)",
-  - "iPhone 6s (11.0)",
-  - "iPhone 6s (11.0) + Apple Watch - 38mm (4.0)",
-  - "iPhone 6s Plus (10.2)",
-  - "iPhone 6s Plus (11.0)",
-  - "iPhone 6s Plus (11.0) + Apple Watch - 42mm (4.0)",
-  - "iPhone 7 (10.2)",
-  - "iPhone 7 (11.0)",
-  - "iPhone 7 (11.0) + Apple Watch Series 2 - 38mm (4.0)",
-  - "iPhone 7 Plus (10.2)",
-  - "iPhone 7 Plus (11.0)",
-  - "iPhone 7 Plus (11.0) + Apple Watch Series 2 - 42mm (4.0)",
-  - "iPhone SE (10.2)",
+  - "Apple TV 1080p (11.0)"
+  - "iPad (5th generation) (11.0)"
+  - "iPad Air (10.2)"
+  - "iPad Air (11.0)"
+  - "iPad Air 2 (10.2)"
+  - "iPad Air 2 (11.0)"
+  - "iPad Pro (10.5-inch) (11.0)"
+  - "iPad Pro (12.9 inch) (10.2)"
+  - "iPad Pro (12.9-inch) (11.0)"
+  - "iPad Pro (12.9-inch) (2nd generation) (11.0)"
+  - "iPad Pro (9.7 inch) (10.2)"
+  - "iPad Pro (9.7-inch) (11.0)"
+  - "iPhone 5 (10.2)"
+  - "iPhone 5s (10.2)"
+  - "iPhone 5s (11.0)"
+  - "iPhone 6 (10.2)"
+  - "iPhone 6 (11.0)"
+  - "iPhone 6 Plus (10.2)"
+  - "iPhone 6 Plus (11.0)"
+  - "iPhone 6s (10.2)"
+  - "iPhone 6s (11.0)"
+  - "iPhone 6s (11.0) + Apple Watch - 38mm (4.0)"
+  - "iPhone 6s Plus (10.2)"
+  - "iPhone 6s Plus (11.0)"
+  - "iPhone 6s Plus (11.0) + Apple Watch - 42mm (4.0)"
+  - "iPhone 7 (10.2)"
+  - "iPhone 7 (11.0)"
+  - "iPhone 7 (11.0) + Apple Watch Series 2 - 38mm (4.0)"
+  - "iPhone 7 Plus (10.2)"
+  - "iPhone 7 Plus (11.0)"
+  - "iPhone 7 Plus (11.0) + Apple Watch Series 2 - 42mm (4.0)"
+  - "iPhone SE (10.2)"
   - "iPhone SE (11.0)"
