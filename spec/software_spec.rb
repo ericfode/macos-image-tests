@@ -61,8 +61,8 @@ describe 'vm image' do
         let(:actual) { software['xcode'][i] }
 
         it 'is the correct build' do
-          expect(expected['version']).to eq(actual['version'])
-          expect(expected['build_version']).to eq(actual['build_version'])
+          expect(actual['version']).to eq(expected['version'])
+          expect(actual['build_version']).to eq(expected['build_version'])
         end
 
         it 'has license accepted and tools installed' do
@@ -77,7 +77,7 @@ describe 'vm image' do
         end
 
         it 'is in the correct location' do
-          expect(expected['app_location']).to eq(actual['app_location'])
+          expect(actual['app_location']).to eq(expected['app_location'])
         end
 
         it 'can be selected as the current xcode' do
