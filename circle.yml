@@ -16,6 +16,7 @@ dependencies:
     - sudo pip install jsonschema awscli --ignore-installed six
 test:
   override:
+    - screencapture $CIRCLE_ARTIFACTS/screen.png
     - ./software_versions.rb > $SOFTWARE
     - bundle exec rspec
     - jsonschema -i $SOFTWARE software_versions.schema.json
