@@ -31,6 +31,11 @@ def os()
   end
 end
 
+def disk()
+  (headers, values) = `df -H /`.lines.map(&:strip).map(&:split)
+  Hash[headers.zip(values)]
+end
+
 def simulators(instruments_path)
   simulator_pattern = /(.*) \[(\S.*)\]/
   output =  output(instruments_path, '-s', 'devices').lines
@@ -132,6 +137,7 @@ end
 versions = {
   image: image_info,
   os: os,
+  disk: disk,
   environment: environment,
   tools: tools,
   ruby: ruby,

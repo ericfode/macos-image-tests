@@ -8,6 +8,7 @@ describe 'vm image' do
   let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
   let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
   let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
+  let(:expected_disk)  { YAML::load(File.read('spec/fixtures/disk.yml')) }
 
   describe 'system settings' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
@@ -20,6 +21,13 @@ describe 'vm image' do
     end
   end
 
+  describe 'physical disk' do
+    it "has the expected df output" do
+      expected_disk.each do |key, value|
+        expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
+      end
+    end
+  end
 
   it 'has the right gems' do
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
