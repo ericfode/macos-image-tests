@@ -1,6 +1,6 @@
 os:
-  system_version: macOS 10.12.5 (16F73)
-  kernel_version: Darwin 16.6.0
+  system_version: macOS 10.12.6 (16G29)
+  kernel_version: Darwin 16.7.0
   boot_volume: Macintosh HD
   boot_mode: Normal
   user_name: "Distiller (distiller)"
@@ -14,15 +14,17 @@ tools:
   python: Python 2.7.13
   pip: pip 9.0.1 from /usr/local/lib/python2.7/site-packages (python 2.7)
   java: |-
-    java version "1.8.0_131"
-    Java(TM) SE Runtime Environment (build 1.8.0_131-b11)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.131-b11, mixed mode)
-  parallel: GNU parallel 20170522
+    java version "1.8.0_144"
+    Java(TM) SE Runtime Environment (build 1.8.0_144-b01)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.144-b01, mixed mode)
+  parallel: GNU parallel 20170922
 ruby:
-  version: ruby 2.3.4p301 (2017-03-30 revision 58214) [x86_64-darwin16]
+  version: ruby 2.3.5p376 (2017-09-14 revision 59905) [x86_64-darwin16]
 power_settings:
+  hibernatemode: 0
+  womp: 1
+  networkoversleep: 0
   sleep: 0
-  # powernap: 0 TODO - add this
+  ttyskeepawake: 1
   disksleep: 0
   displaysleep: 0
-  hibernatemode: 0
