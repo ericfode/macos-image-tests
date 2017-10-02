@@ -7,7 +7,7 @@ title: CircleCI macOS Container Software
 <table>
     <thead>
         <tr>
-            <th colspan="2" class="underline">Operating System</th>
+            <th colspan="2" class="underline">System</th>
         </tr>
     </thead>
 
@@ -28,6 +28,10 @@ title: CircleCI macOS Container Software
             <td>Timezone</td>
             <td>{{ site.data.software.environment.timezone }}</td>
         </tr>
+        <tr>
+          <td>Disk</td>
+          <td>{{ site.data.disk['Size'] }} (Free Space: {{ site.data.disk['Avail'] }})</td>
+        </tr>
     </tbody>
     <thead>
         <tr>
@@ -41,67 +45,39 @@ title: CircleCI macOS Container Software
         </tr>
         <tr>
             <td>Python</td>
-            <td>{{ site.data.software.tools.python }}</td>
+            <td>{{ site.data.software.tools.python }} ({{ site.data.software.tools.pip | truncatewords: 2, "" }})</td>
+        </tr>
+        <tr>
+            <td>Node.js</td>
+            <td>{{ site.data.homebrew['node'] }} (yarn {{ site.data.homebrew['yarn'] }})</td>
         </tr>
         <tr>
             <td>Fastlane</td>
             <td>{{ site.data.gems.fastlane }}</td>
         </tr>
         <tr>
-            <td>cocoapods</td>
+            <td>CocoaPods</td>
             <td>{{ site.data.gems.cocoapods }}</td>
-        </tr>
-        <tr>
-            <td>carthage</td>
-            <td>{{ site.data.homebrew.carthage }}</td>
-        </tr>
-        <tr>
-            <td>shenzhen</td>
-            <td>{{ site.data.gems.shenzhen }}</td>
         </tr>
         <tr>
             <td>xcpretty</td>
             <td>{{ site.data.gems.xcpretty }}</td>
         </tr>
         <tr>
-            <td>Facebook xctool</td>
-            <td>{{ site.data.software.tools.xctool }}</td>
-        </tr>
-        <tr>
             <td>Java</td>
             <td>{{ site.data.software.tools.java | newline_to_br}}</td>
-        </tr>
-
-        <tr>
-            <td>Xcode</td>
-            <td>
-                <ul>
-                    {% for xcode in site.data.xcode reversed %}
-                    <li>{{ xcode['version'] }} Build {{ xcode['build_version'] }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </td>
-
         </tr>
     </tbody>
 </table>
 
-<h2>Xcode</h2>
+<h2 class="underline">Xcode {{ site.data.xcode['version'] }} </h2>
 
-
-
-{% for xcode in site.data.xcode reversed %}
-
-<h3 class="underline" id="{{ xcode['version'] }}">Xcode {{ xcode['version'] }} (build {{ xcode['build_version'] }})</h3>
-With Xcode {{ xcode['version'] }} we pre-install the following simulators:
+With Xcode {{ site.data.xcode['version'] }} Build <code>{{ site.data.xcode['build_version'] }}</code> we pre-install the following simulators:
 
 <ul class="simulators">
-
-    {% for sim in xcode['simulators'] %}
+    {% for sim in site.data.xcode['simulators'] %}
     <li>
         {{ sim }}
     </li>
     {% endfor %}
 </ul>
-{% endfor %}
