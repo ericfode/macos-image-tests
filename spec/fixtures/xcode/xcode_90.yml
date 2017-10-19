@@ -3,6 +3,7 @@ build_version: "9A1004"
 app_location: "/Applications/Xcode-9.0.1.app"
 simulators:
   - Apple TV (11.0)
+  - Apple TV 1080p (10.2)
   - Apple TV 4K (11.0)
   - Apple TV 4K (at 1080p) (11.0)
   - Apple Watch - 38mm (3.2)
