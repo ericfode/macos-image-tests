@@ -1,34 +1,111 @@
-machine:
-  environment:
-    CACHE_MAX_AGE:  600
-    DEPLOY_DIR: pages/_site
-    SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
-  xcode:
-    version: 9.0.1
+# This config was automatically generated from a CircleCI 1.0 config
+# It can be edited to take advantage of CircleCI 2.0 features
+# (Remember to update comments as you do so)
+version: 2
+jobs:
+  build:
+    working_directory: ~/circleci/macos-image-tests
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      CACHE_MAX_AGE:  600
+      DEPLOY_DIR: pages/_site
+      SOFTWARE: /tmp/circleci-artifacts/software_versions.json
+    # The `macos` block requests that builds will run on a machine running
+    # macOS with the specified version of Xcode installed
+    macos:
+      xcode: 9.0.1
+    steps:
+    # Machine Setup
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # This checks out your code
+    - checkout
+    - run: echo '2.4' > .ruby-version
+    # Prepare for artifact and test results collection.
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run:
+        name: screen
+        command: |
+          mkdir -p screen
+          screencapture screen/beforetest.png
+          screencapture screen/aftertest.png
 
-general:
-  artifacts:
-    - pages/_site
-
-dependencies:
-  pre:
-    - brew install jq
-    - sudo pip install jsonschema awscli --ignore-installed six
-test:
-  override:
-    - screencapture $CIRCLE_ARTIFACTS/screen.png
-    - ./software_versions.rb > $SOFTWARE
-    - bundle exec rspec
-    - jsonschema -i $SOFTWARE software_versions.schema.json
-    - bundle exec jekyll build:
-        pwd: pages
-
-deployment:
-  publish:
-    branch: [master, /release.*/]
-    commands:
-      - aws s3 cp
-          --acl public-read
-          --cache-control "max-age=$CACHE_MAX_AGE"
-          --recursive $DEPLOY_DIR
-          s3://circle-macos-docs/image-manifest/`jq -r '.image.build' $SOFTWARE`
+    - store_artifacts:
+        path: screen
+    # This is based on your 1.0 configuration file or project settings
+    - run:
+        working_directory: $HOME/circleci/macos-image-tests
+        command: echo -e "export CACHE_MAX_AGE=600\nexport DEPLOY_DIR=pages/_site\nexport SOFTWARE=$CIRCLE_ARTIFACTS/software_versions.json" >> $HOME/.circlerc
+    # Dependencies
+    #   This would typically go in either a build or a build-and-test job when using workflows
+    # Restore the dependency cache
+    - restore_cache:
+        keys:
+        # This branch if available
+        - v1-dep-{{ .Branch }}-
+        # Default branch if not
+        - v1-dep-master-
+        # Any branch if there are none on the default branch - this should be unnecessary if you have your default branch configured correctly
+        - v1-dep-
+    # This is based on your 1.0 configuration file or project settings
+    - run: brew install jq
+    - run: sudo pip install jsonschema awscli --ignore-installed six
+    # This is based on the commands that our 1.0 platform ran based on what it inferred about your project
+    - run: echo -e "export RAILS_ENV=test\nexport RACK_ENV=test" >> $HOME/.circlerc
+    - run: 'pwd; bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+        --jobs=4 --retry=3 '
+    # Save dependency cache
+    - save_cache:
+        key: v1-dep-{{ .Branch }}-{{ epoch }}
+        paths:
+        # This is a broad list of cache paths to include many possible development environments
+        # You can probably delete some of these entries
+        - vendor/bundle
+        - ~/virtualenvs
+        - ~/.m2
+        - ~/.ivy2
+        - ~/.bundle
+        - ~/.go_workspace
+        - ~/.gradle
+        - ~/.cache/bower
+    # Test
+    #   This would typically be a build job when using workflows, possibly combined with build
+    # This is based on your 1.0 configuration file or project settings
+    - run:
+        name: screencapture $CIRCLE_ARTIFACTS/screen.png
+        command: if [ "$CIRCLE_NODE_INDEX" == "0" ]; then screencapture $CIRCLE_ARTIFACTS/screen.png; fi
+    - run:
+        name: ./software_versions.rb > $SOFTWARE
+        command: if [ "$CIRCLE_NODE_INDEX" == "0" ]; then ./software_versions.rb > $SOFTWARE; fi
+    - run:
+        name: bundle exec rspec
+        command: if [ "$CIRCLE_NODE_INDEX" == "0" ]; then bundle exec rspec; fi
+    - run:
+        name: jsonschema -i $SOFTWARE software_versions.schema.json
+        command: if [ "$CIRCLE_NODE_INDEX" == "0" ]; then jsonschema -i $SOFTWARE software_versions.schema.json; fi
+    - run:
+        name: bundle exec jekyll build
+        command: |-
+          cd "pages"
+          if [ "$CIRCLE_NODE_INDEX" == "0" ]; then bundle exec jekyll build; fi
+    # Deployment
+    # Your existing circle.yml file contains deployment steps.
+    # The config translation tool does not support translating deployment steps
+    # since deployment in CircleCI 2.0 are better handled through workflows.
+    # See the documentation for more information https://circleci.com/docs/2.0/workflows/
+    # Teardown
+    #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
+    # This is based on the commands that our 1.0 platform ran based on what it inferred about your project
+    - run: find $HOME/Library/Developer/Xcode/DerivedData -name '*.xcactivitylog' -exec cp {} $CIRCLE_ARTIFACTS/xcactivitylog \; || true
+    # Save test results
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    # Save artifacts
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: pages/_site
+    - store_artifacts:
+        path: /tmp/circleci-test-results
