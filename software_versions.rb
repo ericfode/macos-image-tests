@@ -2,23 +2,6 @@
 require 'open3'
 require 'json'
 
-
-# Returns the absolute path to the binary with the given name on the current
-# `PATH`, or `nil` if none is found.
-def which(program)
-  program = program.to_s
-  paths = ENV.fetch('PATH') { '' }.split(File::PATH_SEPARATOR)
-  paths.unshift('./')
-  paths.uniq!
-  paths.each do |path|
-    bin = File.expand_path(program, path)
-    if File.file?(bin) && File.executable?(bin)
-      return bin
-    end
-  end
-  nil
-end
-
 # Run the given command and return stdout, stderr, and a boolean indicating if
 # the command was successful.
 def system3(*cmd)
@@ -88,6 +71,11 @@ def homebrew()
   end
 end
 
+def chruby_installed_rubies()
+  require 'pathname'
+  Dir.glob('/Users/distiller/.rubies/ruby-*').map {|p| Pathname.new(p).basename.to_s.sub('ruby-', '') }
+end
+
 def ruby()
   gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
   gems = gem_versions.map do |g|
@@ -96,7 +84,7 @@ def ruby()
      version: version}
   end
   {
-    version: output(which('chruby')).split("\n").join(", "),
+    version: chruby_installed_rubies.join(", "),
     gems: gems
   }
 end
