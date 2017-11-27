@@ -2,6 +2,23 @@
 require 'open3'
 require 'json'
 
+
+# Returns the absolute path to the binary with the given name on the current
+# `PATH`, or `nil` if none is found.
+def which(program)
+  program = program.to_s
+  paths = ENV.fetch('PATH') { '' }.split(File::PATH_SEPARATOR)
+  paths.unshift('./')
+  paths.uniq!
+  paths.each do |path|
+    bin = File.expand_path(program, path)
+    if File.file?(bin) && File.executable?(bin)
+      return bin
+    end
+  end
+  nil
+end
+
 # Run the given command and return stdout, stderr, and a boolean indicating if
 # the command was successful.
 def system3(*cmd)
@@ -79,7 +96,7 @@ def ruby()
      version: version}
   end
   {
-    version: output('chruby').split("\n").join(", "),
+    version: output(which('chruby')).split("\n").join(", "),
     gems: gems
   }
 end
