@@ -79,7 +79,7 @@ def ruby()
      version: version}
   end
   {
-    version: output('ruby -v'),
+    version: output('chruby').split("\n").join(", "),
     gems: gems
   }
 end
