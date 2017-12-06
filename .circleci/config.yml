@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/circleci/macos-image-tests
+    parallelism: 1
+    shell: /bin/bash --login
+    environment:
+      CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+      CACHE_MAX_AGE: 600
+      DEPLOY_DIR: pages/_site
+      SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
+    macos:
+      xcode: "9.1.0"
+    steps:
+    - checkout
+    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
+    - run:
+        working_directory: ~/circleci/macos-image-tests
+        command: echo -e "export CACHE_MAX_AGE=600\nexport DEPLOY_DIR=pages/_site\nexport SOFTWARE=$CIRCLE_ARTIFACTS/software_versions.json" >> $BASH_ENV
+    - run: brew install jq
+    - run: sudo pip install jsonschema awscli --ignore-installed six
+    - run:
+        name: Set Ruby Version
+        command:  echo "ruby-2.4" > ~/.ruby-version
+    - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+        --jobs=4 --retry=3 '
+    - run: screencapture $CIRCLE_ARTIFACTS/screen.png
+    - run: ./software_versions.rb > $SOFTWARE
+    - run: bundle exec rspec
+    - run: jsonschema -i $SOFTWARE software_versions.schema.json
+    - run:
+        command: bundle exec jekyll build
+        working_directory: pages
+    - run: find $HOME/Library/Developer/Xcode/DerivedData -name '*.xcactivitylog' -exec cp {} $CIRCLE_ARTIFACTS/xcactivitylog \; || true
+    - store_test_results:
+        path: /tmp/circleci-test-results
+    - store_artifacts:
+        path: /tmp/circleci-artifacts
+    - store_artifacts:
+        path: pages/_site
+    - store_artifacts:
+        path: /tmp/circleci-test-results
+
