@@ -11,7 +11,7 @@ jobs:
       DEPLOY_DIR: pages/_site
       SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
     macos:
-      xcode: "9.1"
+      xcode: "9.1.0"
     steps:
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
