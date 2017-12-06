@@ -8,7 +8,7 @@ os:
   system_integrity_protection: Enabled
 environment:
   keyboard_layout: com.apple.keylayout.US
-  timezone: PDT
+  timezone: PST
   screensaver_ask_for_password: "0"
 tools:
   python: Python 2.7.13
