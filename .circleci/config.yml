@@ -1,14 +1,12 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/circleci/macos-image-tests
     parallelism: 1
     shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      CACHE_MAX_AGE: 600
-      DEPLOY_DIR: pages/_site
       SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
     macos:
       xcode: "9.2.0"
@@ -18,7 +16,11 @@ jobs:
     - run:
         working_directory: ~/circleci/macos-image-tests
         command: echo -e "export CACHE_MAX_AGE=600\nexport DEPLOY_DIR=pages/_site\nexport SOFTWARE=$CIRCLE_ARTIFACTS/software_versions.json" >> $BASH_ENV
-    - run: brew install jq
+    - run:
+        command: |
+          sudo curl -Lo /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-osx-amd64"
+          sudo chmod +x /usr/local/bin/jq
+        name: Install jq
     - run: sudo pip install jsonschema awscli --ignore-installed six
     - run:
         name: Set Ruby Version
@@ -29,16 +31,64 @@ jobs:
     - run: ./software_versions.rb > $SOFTWARE
     - run: bundle exec rspec
     - run: jsonschema -i $SOFTWARE software_versions.schema.json
-    - run:
-        command: bundle exec jekyll build
-        working_directory: pages
-    - run: find $HOME/Library/Developer/Xcode/DerivedData -name '*.xcactivitylog' -exec cp {} $CIRCLE_ARTIFACTS/xcactivitylog \; || true
+    - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
+    - persist_to_workspace:
+        root: /tmp/circleci-artifacts
+        paths:
+          - version.txt
     - store_test_results:
         path: /tmp/circleci-test-results
     - store_artifacts:
         path: /tmp/circleci-artifacts
     - store_artifacts:
-        path: pages/_site
-    - store_artifacts:
         path: /tmp/circleci-test-results
 
+  build_site:
+    working_directory: ~/circleci/macos-image-tests
+    environment:
+    docker:
+      - image: circleci/ruby:2.4
+    steps:
+      - checkout
+      - run:
+          command: |
+            bundle install
+            bundle exec jekyll build
+          working_directory: pages
+      - persist_to_workspace:
+          root: pages
+          paths:
+            - _site
+
+  deploy_site:
+    working_directory: ~/circleci/macos-image-tests
+    environment:
+      CACHE_MAX_AGE: 600
+      AWS_DEFAULT_REGION: us-east-1
+    docker:
+      - image: dantoml/awscli
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          command: >
+            aws s3 cp
+            --acl public-read
+            --cache-control "max-age=$CACHE_MAX_AGE"
+            --recursive
+            /tmp/workspace/_site
+            s3://circle-macos-docs/image-manifest/`cat /tmp/workspace/version.txt`
+
+workflows:
+  version: 2
+  test-and-deploy:
+    jobs:
+      - test
+      - build_site:
+          requires:
+            - test
+      - deploy_site:
+          requires:
+            - test
+            - build_site
