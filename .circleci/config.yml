@@ -7,30 +7,52 @@ jobs:
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      SOFTWARE: $CIRCLE_ARTIFACTS/software_versions.json
+      SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
       xcode: "9.2.0"
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
-        working_directory: ~/circleci/macos-image-tests
-        command: echo -e "export CACHE_MAX_AGE=600\nexport DEPLOY_DIR=pages/_site\nexport SOFTWARE=$CIRCLE_ARTIFACTS/software_versions.json" >> $BASH_ENV
-    - run:
+        name: Install jq
         command: |
           sudo curl -Lo /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-osx-amd64"
           sudo chmod +x /usr/local/bin/jq
-        name: Install jq
-    - run: sudo pip install jsonschema awscli --ignore-installed six
+
+    - restore_cache:
+        key: v1-python-cache-{{ checksum "requirements.txt" }}
+    - run:
+        command: |
+          virtualenv venv
+          export PATH=venv/bin:$PATH
+          pip install -r requirements.txt
+    - save_cache:
+        key: v1-python-cache-{{ checksum "requirements.txt" }}
+        paths:
+          - venv
+
     - run:
         name: Set Ruby Version
         command:  echo "ruby-2.3" > ~/.ruby-version
-    - run: 'bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
-        --jobs=4 --retry=3 '
+    - restore_cache:
+        key: v1-ruby-cache-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: >
+          bundle check --path=vendor/bundle ||
+          bundle install --path=vendor/bundle --jobs=4 --retry=3
+    - save_cache:
+        key: v1-ruby-cache-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
     - run: screencapture $CIRCLE_ARTIFACTS/screen.png
-    - run: ./software_versions.rb > $SOFTWARE
+    - run: "./software_versions.rb > $SOFTWARE"
     - run: bundle exec rspec
-    - run: jsonschema -i $SOFTWARE software_versions.schema.json
+    - run:
+        command: |
+          export PATH=venv/bin:$PATH
+          jsonschema -i $SOFTWARE software_versions.schema.json
+
     - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
     - persist_to_workspace:
         root: /tmp/circleci-artifacts
@@ -86,9 +108,19 @@ workflows:
     jobs:
       - test
       - build_site:
+          filters:
+            branches:
+              only:
+                - /release.*/
+                - master
           requires:
             - test
       - deploy_site:
+          filters:
+            branches:
+              only:
+                - /release.*/
+                - master
           requires:
             - test
             - build_site
