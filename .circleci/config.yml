@@ -14,24 +14,6 @@ jobs:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - run:
-        name: Install jq
-        command: |
-          sudo curl -Lo /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-osx-amd64"
-          sudo chmod +x /usr/local/bin/jq
-
-    - restore_cache:
-        key: v1-python-cache-{{ checksum "requirements.txt" }}
-    - run:
-        command: |
-          virtualenv venv
-          export PATH=venv/bin:$PATH
-          pip install -r requirements.txt
-    - save_cache:
-        key: v1-python-cache-{{ checksum "requirements.txt" }}
-        paths:
-          - venv
-
-    - run:
         name: Set Ruby Version
         command:  echo "ruby-2.3" > ~/.ruby-version
     - restore_cache:
@@ -44,15 +26,29 @@ jobs:
         key: v1-ruby-cache-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-
     - run: screencapture $CIRCLE_ARTIFACTS/screen.png
     - run: "./software_versions.rb > $SOFTWARE"
     - run: bundle exec rspec
+    - restore_cache:
+        key: v1-python-cache-{{ checksum "requirements.txt" }}
+    - run:
+        command: |
+          virtualenv venv
+          export PATH=venv/bin:$PATH
+          pip install -r requirements.txt
+    - save_cache:
+        key: v1-python-cache-{{ checksum "requirements.txt" }}
+        paths:
+          - venv
     - run:
         command: |
           export PATH=venv/bin:$PATH
           jsonschema -i $SOFTWARE software_versions.schema.json
-
+    - run:
+        name: Install jq
+        command: |
+          sudo curl -Lo /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-osx-amd64"
+          sudo chmod +x /usr/local/bin/jq
     - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
     - persist_to_workspace:
         root: /tmp/circleci-artifacts
