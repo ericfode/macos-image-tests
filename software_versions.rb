@@ -72,8 +72,14 @@ def homebrew()
 end
 
 def chruby_installed_rubies()
-  require 'pathname'
-  Dir.glob('/Users/distiller/.rubies/ruby-*').map {|p| Pathname.new(p).basename.to_s.sub('ruby-', '') }
+  # The output from chruby is like this:
+  #    $ chruby
+  #       ruby-2.2.8
+  #     * ruby-2.3.5
+  #       ruby-2.4.2
+  #
+  # `chruby` is a bash function, so we need to invoke bash as a login shell:
+  `bash -lic chruby`.lines.map {|ruby| ruby.match(/ruby-(\S*)/)[1] }
 end
 
 def ruby()
@@ -84,7 +90,8 @@ def ruby()
      version: version}
   end
   {
-    version: chruby_installed_rubies.join(", "),
+    system: output('ruby -v'),
+    installed: chruby_installed_rubies,
     gems: gems
   }
 end
