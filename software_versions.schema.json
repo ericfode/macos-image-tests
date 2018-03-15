@@ -16,17 +16,29 @@
                 }
             },
             "required": [
-                "build", "date", "sha1"
+                "build",
+                "date",
+                "sha1"
             ]
         },
         "disk": {
             "type": "object",
             "properties": {
-                "Filesystem": { "type": "string" },
-                "Size": { "type": "string" },
-                "Used": { "type": "string" },
-                "Avail": { "type": "string" },
-                "Capacity": { "type": "string" }
+                "Filesystem": {
+                    "type": "string"
+                },
+                "Size": {
+                    "type": "string"
+                },
+                "Used": {
+                    "type": "string"
+                },
+                "Avail": {
+                    "type": "string"
+                },
+                "Capacity": {
+                    "type": "string"
+                }
             },
             "required": [
                 "Filesystem",
@@ -74,8 +86,14 @@
         "ruby": {
             "type": "object",
             "properties": {
-                "version": {
+                "system": {
                     "type": "string"
+                },
+                "installed": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "gems": {
                     "type": "array",
@@ -97,7 +115,8 @@
                 }
             },
             "required": [
-                "version",
+                "installed",
+                "system",
                 "gems"
             ]
         },
