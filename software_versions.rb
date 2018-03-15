@@ -71,6 +71,17 @@ def homebrew()
   end
 end
 
+def chruby_installed_rubies()
+  # The output from chruby is like this:
+  #    $ chruby
+  #       ruby-2.2.8
+  #     * ruby-2.3.5
+  #       ruby-2.4.2
+  #
+  # `chruby` is a bash function, so we need to invoke bash as a login shell:
+  `bash -lic chruby`.lines.map {|ruby| ruby.match(/ruby-(\S*)/)[1] }
+end
+
 def ruby()
   gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
   gems = gem_versions.map do |g|
@@ -79,7 +90,8 @@ def ruby()
      version: version}
   end
   {
-    version: output('ruby -v'),
+    system: output('ruby -v'),
+    installed: chruby_installed_rubies,
     gems: gems
   }
 end

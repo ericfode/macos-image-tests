@@ -19,7 +19,11 @@ tools:
     Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, mixed mode)
   parallel: GNU parallel 20180122
 ruby:
-  version: ruby 2.3.6p384 (2017-12-14 revision 61254) [x86_64-darwin17]
+  system: ruby 2.3.6p384 (2017-12-14 revision 61254) [x86_64-darwin17]
+  installed:
+      - 2.3.6
+      - 2.4.3
+      - 2.5.0
 power_settings:
   hibernatemode: 0
   womp: 1

@@ -41,11 +41,15 @@ title: CircleCI macOS Container Software
     <tbody>
         <tr>
             <td>git</td>
-            <td>{{ site.data.homebrew['git'] }} (with {{ site.data.homebrew['git-lfs'] }})</td>
+            <td>{{ site.data.homebrew['git'] }} (with git-lfs {{ site.data.homebrew['git-lfs'] }})</td>
+        </tr>
+        <tr>
+            <td>System Ruby</td>
+            <td>{{ site.data.software.ruby.system }}</td>
         </tr>
         <tr>
             <td>Ruby</td>
-            <td>{{ site.data.software.ruby.version }}</td>
+            <td>{{ site.data.software.ruby.installed | join: ', '}} (available to <code>chruby</code>)</td>
         </tr>
         <tr>
             <td>Python</td>
