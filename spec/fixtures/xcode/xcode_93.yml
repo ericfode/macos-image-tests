@@ -1,6 +1,6 @@
-version: "9.3"
-build_version: "9E145"
-app_location: "/Applications/Xcode-9.3.app"
+version: "9.3.1"
+build_version: "9E501"
+app_location: "/Applications/Xcode-9.3.1.app"
 simulators:
   - Apple TV (11.2)
   - Apple TV (11.3)

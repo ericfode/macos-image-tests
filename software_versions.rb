@@ -107,7 +107,9 @@ def tools()
   {
     java:    output('java       -version 2>&1'),
     python:  output('python    --version 2>&1'),
+    python3: output('python3   --version'),
     pip:     output('pip       --version'),
+    pip3:    output('pip3      --version'),
     xctool:  output('xctool    --version'),
     parallel: output('parallel --version | head -n 1')
   }
