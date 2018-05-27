@@ -11,13 +11,15 @@ environment:
   timezone: PDT
   screensaver_ask_for_password: error # TODO - what's up here?
 tools:
-  python: Python 2.7.13
-  pip: pip 9.0.1 from /usr/local/lib/python2.7/site-packages (python 2.7)
+  python: Python 2.7.15
+  python3: Python 3.6.5
+  pip: pip 10.0.1 from /usr/local/lib/python2.7/site-packages/pip (python 2.7)
+  pip3: pip 10.0.1 from /usr/local/lib/python3.6/site-packages/pip (python 3.6)
   java: |-
-    java version "1.8.0_162"
-    Java(TM) SE Runtime Environment (build 1.8.0_162-b12)
-    Java HotSpot(TM) 64-Bit Server VM (build 25.162-b12, mixed mode)
-  parallel: GNU parallel 20180322
+    java version "1.8.0_172"
+    Java(TM) SE Runtime Environment (build 1.8.0_172-b11)
+    Java HotSpot(TM) 64-Bit Server VM (build 25.172-b11, mixed mode)
+  parallel: GNU parallel 20180422
 ruby:
   system: ruby 2.3.7p456 (2018-03-28 revision 63024) [x86_64-darwin17]
   installed:

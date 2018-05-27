@@ -9,7 +9,7 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
-      xcode: 9.3.0
+      xcode: 9.3.1
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
@@ -29,20 +29,10 @@ jobs:
     - run: screencapture $CIRCLE_ARTIFACTS/screen.png
     - run: "./software_versions.rb > $SOFTWARE"
     - run: bundle exec rspec
-    - restore_cache:
-        key: v1-python-cache-{{ checksum "requirements.txt" }}
     - run:
+        name: Run schema Tests
         command: |
-          virtualenv venv
-          export PATH=venv/bin:$PATH
-          pip install -r requirements.txt
-    - save_cache:
-        key: v1-python-cache-{{ checksum "requirements.txt" }}
-        paths:
-          - venv
-    - run:
-        command: |
-          export PATH=venv/bin:$PATH
+          pip3 install jsonschema
           jsonschema -i $SOFTWARE software_versions.schema.json
     - run:
         name: Install jq

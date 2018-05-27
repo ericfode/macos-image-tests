@@ -126,7 +126,13 @@
                 "python": {
                     "type": "string"
                 },
+                "python3": {
+                    "type": "string"
+                },
                 "pip": {
+                    "type": "string"
+                },
+                "pip3": {
                     "type": "string"
                 },
                 "xctool": {
