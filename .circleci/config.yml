@@ -9,7 +9,7 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
-      xcode: 9.4.0
+      xcode: 10.0.0
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
