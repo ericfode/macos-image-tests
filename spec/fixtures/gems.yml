@@ -1,4 +1,4 @@
 bundler: 1.16.2
-cocoapods: 1.5.2
-fastlane: 2.95.0
+cocoapods: 1.5.3
+fastlane: 2.96.1
 xcpretty: 0.2.8

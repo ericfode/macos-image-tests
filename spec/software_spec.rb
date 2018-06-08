@@ -61,38 +61,32 @@ describe 'vm image' do
   # list, and we don't expect it, these tests will still pass.
 
   describe 'xcode' do
-    Dir.glob('spec/fixtures/xcode/xcode_*.yml')
-      .each_with_index do |version, i|
+    let(:expected) { YAML::load(File.read('spec/fixtures/xcode/xcode.yml')) }
+    let(:actual) { software['xcode'].first }
 
-      describe version do
-        let(:expected) { YAML::load(File.read(version)) }
-        let(:actual) { software['xcode'][i] }
+    it 'is the correct build' do
+      expect(actual['version']).to eq(expected['version'])
+      expect(actual['build_version']).to eq(expected['build_version'])
+    end
 
-        it 'is the correct build' do
-          expect(actual['version']).to eq(expected['version'])
-          expect(actual['build_version']).to eq(expected['build_version'])
-        end
+    it 'has license accepted and tools installed' do
+      expect(actual['license_accepted']).to be true
+      expect(actual['tools_installed' ]).to be true
+    end
 
-        it 'has license accepted and tools installed' do
-          expect(actual['license_accepted']).to be true
-          expect(actual['tools_installed' ]).to be true
-        end
+    it 'has all simulators' do
+      expected_names =  expected['simulators'] + [software['os']['computer_name']]
 
-        it 'has all simulators' do
-          expected_names =  expected['simulators'] + [software['os']['computer_name']]
+      expect(actual['simulators']).to match_array(expected_names)
+    end
 
-          expect(actual['simulators']).to match_array(expected_names)
-        end
+    it 'is in the correct location' do
+      expect(actual['app_location']).to eq(expected['app_location'])
+    end
 
-        it 'is in the correct location' do
-          expect(actual['app_location']).to eq(expected['app_location'])
-        end
-
-        it 'can be selected as the current xcode' do
-          `sudo xcode-select --switch #{actual['app_location']}`
-          expect($?).to eq(0)
-        end
-      end
+    it 'can be selected as the current xcode' do
+      `sudo xcode-select --switch #{actual['app_location']}`
+      expect($?).to eq(0)
     end
   end
 end
