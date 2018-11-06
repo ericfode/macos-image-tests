@@ -1,4 +1,4 @@
-version: "10.0"
+version: "10.1"
 build_version: "10A255"
 app_location: "/Applications/Xcode-10.app"
 simulators:
