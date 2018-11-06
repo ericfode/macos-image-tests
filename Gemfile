@@ -4,6 +4,4 @@ source "https://rubygems.org"
 
 gem 'rspec'
 gem 'rspec_candy'
-gem 'jekyll'
-
-
+gem 'jekyll', '>= 3.6.3'
