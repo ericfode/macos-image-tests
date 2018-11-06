@@ -9,6 +9,7 @@ describe 'vm image' do
   let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
   let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
   let(:expected_disk)  { YAML::load(File.read('spec/fixtures/disk.yml')) }
+  let(:expected_clt)  { YAML::load(File.read('spec/fixtures/clt.yml')) }
 
   describe 'system settings' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
@@ -22,9 +23,7 @@ describe 'vm image' do
   end
 
   describe 'physical disk' do
-    # HACK: Temporarily disabling this test. v449 keeps flipflopping between
-    #       38G and 39G of free disk, and it's a saturday.
-    xit "has the expected df output" do
+    it "has the expected df output" do
       expected_disk.each do |key, value|
         expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
       end
@@ -48,6 +47,10 @@ describe 'vm image' do
     expected_formulae.each do |name, versions|
       expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
     end
+  end
+
+  it 'has the correct command line tools' do
+    expect(software['command_line_tools']).to include_hash(expected_clt)
   end
 
   # TODO:
