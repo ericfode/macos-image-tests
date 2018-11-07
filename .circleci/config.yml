@@ -1,9 +1,6 @@
 version: 2
 jobs:
   test:
-    working_directory: ~/circleci/macos-image-tests
-    parallelism: 1
-    shell: /bin/bash --login
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
@@ -13,20 +10,21 @@ jobs:
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - run:
-        name: Set Ruby Version
-        command:  echo "ruby-2.3" > ~/.ruby-version
     - restore_cache:
-        key: v1-ruby-cache-{{ checksum "Gemfile.lock" }}
+        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
     - run:
         command: >
           bundle check --path=vendor/bundle ||
           bundle install --path=vendor/bundle --jobs=4 --retry=3
     - save_cache:
-        key: v1-ruby-cache-{{ checksum "Gemfile.lock" }}
+        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-    - run: screencapture $CIRCLE_ARTIFACTS/screen.png
+    - run:
+         name: Take A Screenshot To Ensure The Screen Is Unlocked.
+         command: |
+           screencapture $CIRCLE_ARTIFACTS/screen.png
+           [ -s $CIRCLE_ARTIFACTS/screen.png ]
     - run: "./software_versions.rb > $SOFTWARE"
     - run: bundle exec rspec
     - run:
@@ -34,11 +32,6 @@ jobs:
         command: |
           pip3 install jsonschema
           jsonschema -i $SOFTWARE software_versions.schema.json
-    - run:
-        name: Install jq
-        command: |
-          sudo curl -Lo /usr/local/bin/jq "https://github.com/stedolan/jq/releases/download/jq-1.5/jq-osx-amd64"
-          sudo chmod +x /usr/local/bin/jq
     - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
     - persist_to_workspace:
         root: /tmp/circleci-artifacts

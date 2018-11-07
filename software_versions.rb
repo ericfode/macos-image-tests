@@ -20,15 +20,19 @@ def output(*cmd)
   success ? out.strip : :error
 end
 
-def os()
-  output = `system_profiler SPSoftwareDataType`
+def parse_cmd_kv_pairs(output)
   trimmed_pairs = output.lines
     .map {|s| s.split(':').map(&:strip).reject(&:empty?) }
     .reject {|a| a.count != 2}
 
   attributes = trimmed_pairs.each_with_object({}) do |(key, value), hash|
-    hash[key.downcase.split.join('_').to_sym] = value
+    # Convert keys into snake_case
+    hash[key.downcase.split.join('_').gsub('-', '_').to_sym] = value
   end
+end
+
+def os()
+  parse_cmd_kv_pairs `system_profiler SPSoftwareDataType`
 end
 
 def disk()
@@ -61,6 +65,10 @@ def xcode()
     }
   end
   bundle_versions
+end
+
+def command_line_tools()
+  parse_cmd_kv_pairs `pkgutil --pkg-info=com.apple.pkg.CLTools_Executables`
 end
 
 def homebrew()
@@ -157,7 +165,8 @@ versions = {
   ruby: ruby,
   homebrew: homebrew,
   xcode: xcode,
-  power_settings: power_settings
+  power_settings: power_settings,
+  command_line_tools: command_line_tools
 }
 
 puts(JSON.pretty_generate(versions))

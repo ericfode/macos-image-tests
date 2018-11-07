@@ -185,6 +185,38 @@
                 "displaysleep",
                 "hibernatemode"
             ]
+        },
+        "command_line_tools": {
+            "type": "object",
+            "properties": {
+                "package_id": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "volume": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "install_time": {
+                    "type": "string"
+                },
+                "groups": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "package_id",
+                "version",
+                "volume",
+                "location",
+                "install_time",
+                "groups"
+            ],
+            "additionalProperties": false
         }
     },
     "required": [
@@ -196,7 +228,8 @@
         "tools",
         "xcode",
         "homebrew",
-        "power_settings"
+        "power_settings",
+        "command_line_tools"
     ],
     "additionalProperties": false
 }
