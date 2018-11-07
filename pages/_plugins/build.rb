@@ -31,6 +31,7 @@ module Simulators
       site.data['gems'] = YAML::load(File.read('../spec/fixtures/gems.yml'))
       site.data['homebrew'] = YAML::load(File.read('../spec/fixtures/homebrew.yml'))
       site.data['disk'] = YAML::load(File.read('../spec/fixtures/disk.yml'))
+      site.data['clt'] = YAML::load(File.read('../spec/fixtures/clt.yml'))
     end
 
   end
