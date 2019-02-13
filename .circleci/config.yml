@@ -21,20 +21,22 @@ jobs:
         paths:
           - vendor/bundle
     - run: "./software_versions.rb > $SOFTWARE"
+    - run:
+        command: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
     - run: bundle exec rspec
     - run:
         name: Run schema Tests
         command: |
           pip3 install jsonschema
           jsonschema -i $SOFTWARE software_versions.schema.json
-    - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
     - run:
-         name: Take A Screenshot To Ensure The Screen Is Unlocked.
-         command: |
+        name: Take A Screenshot To Ensure The Screen Is Unlocked.
+        command: |
            # Give the VM time to finish booting and logging in
            sleep 20
            screencapture $CIRCLE_ARTIFACTS/screen.png
            [ -s $CIRCLE_ARTIFACTS/screen.png ]
+        when: always
     - persist_to_workspace:
         root: /tmp/circleci-artifacts
         paths:
