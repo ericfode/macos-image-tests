@@ -74,6 +74,8 @@ GEM
     rspec_candy (0.4.1)
       rspec
       sneaky-save
+    rspec_junit_formatter (0.4.1)
+      rspec-core (>= 2, < 4, != 2.12.0)
     ruby_dep (1.5.0)
     safe_yaml (1.0.4)
     sass (3.6.0)
@@ -94,6 +96,7 @@ DEPENDENCIES
   jekyll (>= 3.6.3)
   rspec
   rspec_candy
+  rspec_junit_formatter
 
 BUNDLED WITH
    1.17.1
