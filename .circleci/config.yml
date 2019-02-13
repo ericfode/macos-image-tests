@@ -20,11 +20,6 @@ jobs:
         key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-    - run:
-         name: Take A Screenshot To Ensure The Screen Is Unlocked.
-         command: |
-           screencapture $CIRCLE_ARTIFACTS/screen.png
-           [ -s $CIRCLE_ARTIFACTS/screen.png ]
     - run: "./software_versions.rb > $SOFTWARE"
     - run: bundle exec rspec
     - run:
@@ -33,6 +28,13 @@ jobs:
           pip3 install jsonschema
           jsonschema -i $SOFTWARE software_versions.schema.json
     - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
+    - run:
+         name: Take A Screenshot To Ensure The Screen Is Unlocked.
+         command: |
+           # Give the VM time to finish booting and logging in
+           sleep 20
+           screencapture $CIRCLE_ARTIFACTS/screen.png
+           [ -s $CIRCLE_ARTIFACTS/screen.png ]
     - persist_to_workspace:
         root: /tmp/circleci-artifacts
         paths:
