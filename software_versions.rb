@@ -50,7 +50,7 @@ def simulators(instruments_path)
 end
 
 def xcode()
-  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
+  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip).sort
   bundle_versions = paths.map do |path|
     plist = File.join(path, 'Contents', 'version.plist')
     bindir = File.join(path, 'Contents', 'Developer', 'usr', 'bin')

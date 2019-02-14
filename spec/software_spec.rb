@@ -23,29 +23,33 @@ describe 'vm image' do
   end
 
   describe 'physical disk' do
-    it "has the expected df output" do
-      expected_disk.each do |key, value|
-        expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
+    expected_disk.each do |key, value|
+      it "has the expected df #{key} output" do
+          expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
       end
     end
   end
 
-  it 'has the right gems' do
+  describe 'gems'
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
       hsh[gem['name']] = gem['version']
     end
     expected_gems.each do |gem, version|
       installed_gem = installed[gem]
-      expect(installed_gem).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed_gem}"}
+      it "has the right version of #{gem}" do
+        expect(installed_gem).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed_gem}"}
+      end
     end
   end
 
-  it 'has the right homebrew formulae' do
+  describe 'homebrew' do
     installed = software['homebrew'].each_with_object({}) do |(name, versions), hsh|
       hsh[name] = versions
     end
     expected_formulae.each do |name, versions|
-      expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
+      it "has the right version of #{name}" do
+        expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
+      end
     end
   end
 
