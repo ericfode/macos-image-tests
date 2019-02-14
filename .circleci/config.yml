@@ -23,7 +23,7 @@ jobs:
     - run: "./software_versions.rb > $SOFTWARE"
     - run:
         command: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
-    - run: bundle exec rspec --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml
+    - run: bundle exec rspec --format documentation --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml
     - run:
         name: Run schema Tests
         command: |
