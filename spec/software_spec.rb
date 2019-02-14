@@ -30,7 +30,7 @@ describe 'vm image' do
     end
   end
 
-  describe 'gems'
+  describe 'gems' do
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
       hsh[gem['name']] = gem['version']
     end
