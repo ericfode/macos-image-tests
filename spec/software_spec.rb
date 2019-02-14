@@ -5,11 +5,11 @@ require 'yaml'
 
 describe 'vm image' do
 
-  let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
-  let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
-  let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
-  let(:expected_disk)  { YAML::load(File.read('spec/fixtures/disk.yml')) }
-  let(:expected_clt)  { YAML::load(File.read('spec/fixtures/clt.yml')) }
+  software = JSON.parse(File.read(ENV['SOFTWARE']))
+  expected_gems = YAML::load(File.read('spec/fixtures/gems.yml'))
+  expected_formulae = YAML::load(File.read('spec/fixtures/homebrew.yml'))
+  expected_disk = YAML::load(File.read('spec/fixtures/disk.yml'))
+  expected_clt = YAML::load(File.read('spec/fixtures/clt.yml'))
 
   describe 'system settings' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
