@@ -91,7 +91,7 @@ def chruby_installed_rubies()
 end
 
 def ruby()
-  gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
+  gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S.*\)$/)}
   gems = gem_versions.map do |g|
     name, version = g.match(/(\S.*) \((\S.*)\)/).captures
     {name: name,
