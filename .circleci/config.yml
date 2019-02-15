@@ -6,7 +6,7 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
-      xcode: 10.1.0
+      xcode: 10.2.0
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
@@ -20,19 +20,23 @@ jobs:
         key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-    - run:
-         name: Take A Screenshot To Ensure The Screen Is Unlocked.
-         command: |
-           screencapture $CIRCLE_ARTIFACTS/screen.png
-           [ -s $CIRCLE_ARTIFACTS/screen.png ]
     - run: "./software_versions.rb > $SOFTWARE"
-    - run: bundle exec rspec
+    - run:
+        command: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
+    - run: bundle exec rspec --format documentation --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml
     - run:
         name: Run schema Tests
         command: |
           pip3 install jsonschema
           jsonschema -i $SOFTWARE software_versions.schema.json
-    - run: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
+    - run:
+        name: Take A Screenshot To Ensure The Screen Is Unlocked.
+        command: |
+           # Give the VM time to finish booting and logging in
+           sleep 20
+           screencapture $CIRCLE_ARTIFACTS/screen.png
+           [ -s $CIRCLE_ARTIFACTS/screen.png ]
+        when: always
     - persist_to_workspace:
         root: /tmp/circleci-artifacts
         paths:

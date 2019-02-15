@@ -50,7 +50,7 @@ def simulators(instruments_path)
 end
 
 def xcode()
-  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip)
+  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip).sort
   bundle_versions = paths.map do |path|
     plist = File.join(path, 'Contents', 'version.plist')
     bindir = File.join(path, 'Contents', 'Developer', 'usr', 'bin')
@@ -91,7 +91,7 @@ def chruby_installed_rubies()
 end
 
 def ruby()
-  gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S*\)$/)}
+  gem_versions = `gem list`.lines.select {|s| s.match(/^\S.* \(\S.*\)$/)}
   gems = gem_versions.map do |g|
     name, version = g.match(/(\S.*) \((\S.*)\)/).captures
     {name: name,

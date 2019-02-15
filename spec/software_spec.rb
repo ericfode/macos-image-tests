@@ -5,11 +5,11 @@ require 'yaml'
 
 describe 'vm image' do
 
-  let(:software) { JSON.parse(File.read(ENV['SOFTWARE'])) }
-  let(:expected_gems) { YAML::load(File.read('spec/fixtures/gems.yml')) }
-  let(:expected_formulae) { YAML::load(File.read('spec/fixtures/homebrew.yml')) }
-  let(:expected_disk)  { YAML::load(File.read('spec/fixtures/disk.yml')) }
-  let(:expected_clt)  { YAML::load(File.read('spec/fixtures/clt.yml')) }
+  software = JSON.parse(File.read(ENV['SOFTWARE']))
+  expected_gems = YAML::load(File.read('spec/fixtures/gems.yml'))
+  expected_formulae = YAML::load(File.read('spec/fixtures/homebrew.yml'))
+  expected_disk = YAML::load(File.read('spec/fixtures/disk.yml'))
+  expected_clt = YAML::load(File.read('spec/fixtures/clt.yml'))
 
   describe 'system settings' do
     expected = YAML::load(File.read('spec/fixtures/software.yml'))
@@ -23,29 +23,33 @@ describe 'vm image' do
   end
 
   describe 'physical disk' do
-    it "has the expected df output" do
-      expected_disk.each do |key, value|
-        expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
+    expected_disk.each do |key, value|
+      it "has the expected df #{key} output" do
+          expect(software['disk'][key]).to eq(value), "Expected disk[#{key}] to be '#{value}', got #{software['disk'][key]}"
       end
     end
   end
 
-  it 'has the right gems' do
+  describe 'gems' do
     installed = software['ruby']['gems'].each_with_object({}) do |gem, hsh|
       hsh[gem['name']] = gem['version']
     end
     expected_gems.each do |gem, version|
       installed_gem = installed[gem]
-      expect(installed_gem).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed_gem}"}
+      it "has the right version of #{gem}" do
+        expect(installed_gem).to eq(version), lambda { "expected #{gem} to be version #{version} but got #{installed_gem}"}
+      end
     end
   end
 
-  it 'has the right homebrew formulae' do
+  describe 'homebrew' do
     installed = software['homebrew'].each_with_object({}) do |(name, versions), hsh|
       hsh[name] = versions
     end
     expected_formulae.each do |name, versions|
-      expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
+      it "has the right version of #{name}" do
+        expect(installed[name]).to eq(versions), lambda { "expected #{name} to have versions #{versions} but got #{installed[name]}"}
+      end
     end
   end
 
