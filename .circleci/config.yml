@@ -7,11 +7,17 @@ jobs:
       SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
       xcode: 10.2.0
+    # Login shell to ensure .bashrc and therefore chruby
+    shell: /bin/bash --login
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - restore_cache:
         key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
+    - run:
+        command: |
+          echo "ruby-2.5" > ~/.ruby-version
+          ruby --version
     - run:
         command: >
           bundle check --path=vendor/bundle ||
