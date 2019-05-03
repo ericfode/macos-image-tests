@@ -1,6 +1,6 @@
-version: "10.2"
-build_version: "10E125"
-app_location: "/Applications/Xcode-10.2.app"
+version: "10.2.1"
+build_version: "10E1001"
+app_location: "/Applications/Xcode-10.2.1.app"
 simulators:
   - "Apple TV (12.2)"
   - "Apple TV 4K (12.2)"
