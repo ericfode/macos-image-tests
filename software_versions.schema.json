@@ -186,6 +186,9 @@
                 "hibernatemode"
             ]
         },
+        "screen_locked": {
+            "type":"boolean"
+        },
         "command_line_tools": {
             "type": "object",
             "properties": {
@@ -229,7 +232,8 @@
         "xcode",
         "homebrew",
         "power_settings",
-        "command_line_tools"
+        "command_line_tools",
+        "screen_locked"
     ],
     "additionalProperties": false
 }

@@ -8,18 +8,18 @@ jobs:
       CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
       SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
-      xcode: 10.2.1
+      xcode: 11.0.0
     steps:
     - checkout
     - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
     - restore_cache:
-        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
+        key: v3-ruby-cache-{{ checksum "Gemfile.lock" }}
     - run:
         command: >
           bundle check --path=vendor/bundle ||
           bundle install --path=vendor/bundle --jobs=4 --retry=3
     - save_cache:
-        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
+        key: v3-ruby-cache-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
     - run: "./software_versions.rb > $SOFTWARE"
@@ -34,10 +34,12 @@ jobs:
     - run:
         name: Take A Screenshot To Ensure The Screen Is Unlocked.
         command: |
-           # Give the VM time to finish booting and logging in
-           sleep 20
            screencapture $CIRCLE_ARTIFACTS/screen.png
            [ -s $CIRCLE_ARTIFACTS/screen.png ]
+        when: always
+    - run:
+        name: Grab Power Logs
+        command: sudo sudo pmset -g everything > $CIRCLE_ARTIFACTS/pmset.txt
         when: always
     - persist_to_workspace:
         root: /tmp/circleci-artifacts

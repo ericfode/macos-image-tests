@@ -129,6 +129,17 @@ rescue ArgumentError
   str
 end
 
+# Check if the screen is locked.
+# Run some Python using the system python interpreter, which has access to
+# Quartz (ObjectiveC). This prints a dictionary, which will contain a key
+# 'CGSSessionScreenIsLocked' when the screen is locked, and the key will be
+# absent otherwise. `system` returns true is the command succeeds, and `grep`
+# will return success when it matches.
+# Pipeout to /dev/null to prevent us printing to stdout.
+def screen_locked?
+  system("/usr/bin/python -c 'import sys,Quartz; d=Quartz.CGSessionCopyCurrentDictionary(); print d' | grep CGSSessionScreenIsLocked > /dev/null")
+end
+
 def power_settings()
   #  $ sudo pmset -g
   # Currently in use:
@@ -166,7 +177,8 @@ versions = {
   homebrew: homebrew,
   xcode: xcode,
   power_settings: power_settings,
-  command_line_tools: command_line_tools
+  command_line_tools: command_line_tools,
+  screen_locked: screen_locked?
 }
 
 puts(JSON.pretty_generate(versions))

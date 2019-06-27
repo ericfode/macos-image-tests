@@ -53,6 +53,10 @@ describe 'vm image' do
     end
   end
 
+  it 'has the screen unlocked' do
+    expect(software['screen_locked']).to be false
+  end
+
   it 'has the correct command line tools' do
     expect(software['command_line_tools']).to include_hash(expected_clt)
   end
