@@ -1,7 +1,6 @@
 # TODO - this file is a pointless test
-version: "11.0"
-build_version: "11M337n"
-app_location: "/Applications/Xcode-11.Beta.2.app"
+version: Xcode 11.0
+build_version: Build version 11M337n
 simulators:
   - "Apple TV (13.0)"
   - "Apple TV 4K (13.0)"

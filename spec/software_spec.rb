@@ -75,7 +75,7 @@ describe 'vm image' do
 
   describe 'xcode' do
     let(:expected) { YAML::load(File.read('spec/fixtures/xcode/xcode.yml')) }
-    let(:actual) { software['xcode'].first }
+    let(:actual) { software['xcode'] }
 
     it 'is the correct build' do
       expect(actual['version']).to eq(expected['version'])
@@ -97,9 +97,5 @@ describe 'vm image' do
       expect(actual['app_location']).to eq(expected['app_location'])
     end
 
-    it 'can be selected as the current xcode' do
-      `sudo xcode-select --switch #{actual['app_location']}`
-      expect($?).to eq(0)
-    end
   end
 end

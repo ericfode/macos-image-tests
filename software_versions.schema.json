@@ -223,17 +223,17 @@
         }
     },
     "required": [
-        "image",
-        "disk",
-        "os",
-        "environment",
-        "ruby",
-        "tools",
-        "xcode",
-        "homebrew",
-        "power_settings",
         "command_line_tools",
-        "screen_locked"
+        "disk",
+        "environment",
+        "homebrew",
+        "image",
+        "os",
+        "power_settings",
+        "ruby",
+        "screen_locked",
+        "tools",
+        "xcode"
     ],
     "additionalProperties": false
 }

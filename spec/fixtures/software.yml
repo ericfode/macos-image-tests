@@ -15,7 +15,7 @@ tools:
   python3: Python 3.7.3
   pip: 'pip 19.1.1 from /usr/local/lib/python2.7/site-packages/pip (python 2.7)'
   pip3: 'pip 19.1.1 from /usr/local/lib/python3.7/site-packages/pip (python 3.7)'
-  java: "openjdk version \"1.8.0_212\"\nOpenJDK Runtime Environment (AdoptOpenJDK)(build 1.8.0_212-b04)\nOpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.212-b04, mixed mode)",
+  java: "openjdk version \"1.8.0_212\"\nOpenJDK Runtime Environment (AdoptOpenJDK)(build 1.8.0_212-b04)\nOpenJDK 64-Bit Server VM (AdoptOpenJDK)(build 25.212-b04, mixed mode)"
   parallel: 'GNU parallel 20190622'
 ruby:
   system: ruby 2.3.7p456 (2018-03-28 revision 63024) [universal.x86_64-darwin18]

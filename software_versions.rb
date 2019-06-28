@@ -13,7 +13,6 @@ def system3(*cmd)
   end
 end
 
-
 # Return the output of the given command, or the symbol :error on failure.
 def output(*cmd)
   out, err, success = system3(*cmd)
@@ -40,31 +39,23 @@ def disk()
   Hash[headers.zip(values)]
 end
 
-def simulators(instruments_path)
+def simulators
   simulator_pattern = /(.*) \[(\S.*)\]/
-  output =  output(instruments_path, '-s', 'devices').lines
+  output =  output('instruments', '-s', 'devices').lines
   output = output.select {|s| s.match(simulator_pattern)}.map  do |s|
     s.match(simulator_pattern).captures.first
   end
   output = output.sort
 end
 
-def xcode()
-  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip).sort
-  bundle_versions = paths.map do |path|
-    plist = File.join(path, 'Contents', 'version.plist')
-    bindir = File.join(path, 'Contents', 'Developer', 'usr', 'bin')
-    instruments = File.join(bindir, 'instruments')
-    xcodebuild  = File.join(bindir, 'xcodebuild')
-    { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
-      build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
-      license_accepted: `#{xcodebuild} -checkFirstLaunchStatus ; echo $?`.to_i == 0,
-      tools_installed: `sudo xcode-select -s #{path} && xcode-select --print-path > /dev/null ; echo $?`.to_i == 0,
-      simulators: simulators(instruments),
-      app_location: path
-    }
-  end
-  bundle_versions
+def xcode
+  version, build = `xcodebuild -version`.lines.map(&:strip)
+  { version: version,
+    build_version: build,
+    license_accepted: `xcodebuild -checkFirstLaunchStatus ; echo $?`.to_i == 0,
+    tools_installed: `xcode-select --print-path > /dev/null ; echo $?`.to_i == 0,
+    simulators: simulators,
+  }
 end
 
 def command_line_tools()
