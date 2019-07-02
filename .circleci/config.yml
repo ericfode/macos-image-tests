@@ -1,73 +1,83 @@
 version: 2.1
 
-
 jobs:
-  test:
+  build:
     environment:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
-      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
-      SOFTWARE: /tmp/circleci-artifacts/software_versions.json
     macos:
-      xcode: 10.2.1
+      xcode: 11.0.0
     steps:
-    - checkout
-    - run: mkdir -p $CIRCLE_ARTIFACTS $CIRCLE_TEST_REPORTS
-    - restore_cache:
-        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
-    - run:
-        command: >
-          bundle check --path=vendor/bundle ||
-          bundle install --path=vendor/bundle --jobs=4 --retry=3
-    - save_cache:
-        key: v2-ruby-cache-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
-    - run: "./software_versions.rb > $SOFTWARE"
-    - run:
-        command: jq -r '.image.build' $SOFTWARE > /tmp/circleci-artifacts/version.txt
-    - run: bundle exec rspec --format documentation --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec.xml
-    - run:
-        name: Run schema Tests
-        command: |
-          pip3 install jsonschema
-          jsonschema -i $SOFTWARE software_versions.schema.json
-    - run:
-        name: Take A Screenshot To Ensure The Screen Is Unlocked.
-        command: |
-           # Give the VM time to finish booting and logging in
-           sleep 20
-           screencapture $CIRCLE_ARTIFACTS/screen.png
-           [ -s $CIRCLE_ARTIFACTS/screen.png ]
-        when: always
-    - persist_to_workspace:
-        root: /tmp/circleci-artifacts
-        paths:
-          - version.txt
-    - store_test_results:
-        path: /tmp/circleci-test-results
-    - store_artifacts:
-        path: /tmp/circleci-artifacts
-    - store_artifacts:
-        path: /tmp/circleci-test-results
+      - checkout
+      - run: mkdir -p $CIRCLE_ARTIFACTS
+      - run: ./software_versions.rb > $CIRCLE_ARTIFACTS/software.json
+      - run: jq -r '.image.build' $CIRCLE_ARTIFACTS/software.json > $CIRCLE_ARTIFACTS/version.txt
+      - run:
+          name: Take A Screenshot To Ensure The Screen Is Unlocked.
+          command: |
+             screencapture $CIRCLE_ARTIFACTS/screen.png
+             [ -s $CIRCLE_ARTIFACTS/screen.png ]
+          when: always
+      - run:
+          name: Grab Power Logs
+          command: sudo sudo pmset -g everything > $CIRCLE_ARTIFACTS/pmset.txt
+          when: always
+      - persist_to_workspace:
+          root: /tmp/circleci-artifacts
+          paths:
+            - version.txt
+            - software.json
+      - store_artifacts:
+          path: /tmp/circleci-artifacts
 
-  build_site:
-    working_directory: ~/circleci/macos-image-tests
+  test:
     environment:
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
     docker:
       - image: circleci/ruby:2.4
     steps:
       - checkout
+      - run: mkdir -p $CIRCLE_TEST_REPORTS
+      - attach_workspace:
+          at: /tmp/workspace
+      - restore_cache:
+          key: v3-ruby-cache-{{ checksum "Gemfile.lock" }}
       - run:
-          command: |
-            bundle install
-            bundle exec jekyll build
+          command: >
+            bundle check --path=vendor/bundle ||
+            bundle install --path=vendor/bundle --jobs=4 --retry=3
+      - save_cache:
+          key: v3-ruby-cache-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          command: >
+            bundle exec rspec
+            --format documentation
+            --format RspecJunitFormatter
+            -o $CIRCLE_TEST_REPORTS/rspec.xml
+          environment:
+            SOFTWARE: /tmp/workspace/software.json
+      - run:
+          name: Build Site
+          command: bundle exec jekyll build
           working_directory: pages
       - persist_to_workspace:
           root: pages
           paths:
             - _site
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      - store_artifacts:
+          path: /tmp/circleci-test-results
+    # - run:
+    #     name: Run schema Tests
+    #     command: |
+    #       pip3 install jsonschema
+    #       jsonschema -i $SOFTWARE software_versions.schema.json
+    #     environment:
+    #        SOFTWARE: /tmp/workspace/software.json
 
-  deploy_site:
+  deploy:
     working_directory: ~/circleci/macos-image-tests
     environment:
       CACHE_MAX_AGE: 600
@@ -88,24 +98,15 @@ jobs:
             s3://circle-macos-docs/image-manifest/`cat /tmp/workspace/version.txt`
 
 workflows:
-  version: 2
   test-and-deploy:
     jobs:
-      - test
-      - build_site:
+      - build
+      - test:
+          requires: [build]
+      - deploy:
+          requires: [test]
           filters:
             branches:
               only:
                 - /release.*/
                 - master
-          requires:
-            - test
-      - deploy_site:
-          filters:
-            branches:
-              only:
-                - /release.*/
-                - master
-          requires:
-            - test
-            - build_site

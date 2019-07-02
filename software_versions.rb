@@ -13,7 +13,6 @@ def system3(*cmd)
   end
 end
 
-
 # Return the output of the given command, or the symbol :error on failure.
 def output(*cmd)
   out, err, success = system3(*cmd)
@@ -40,31 +39,23 @@ def disk()
   Hash[headers.zip(values)]
 end
 
-def simulators(instruments_path)
+def simulators
   simulator_pattern = /(.*) \[(\S.*)\]/
-  output =  output(instruments_path, '-s', 'devices').lines
+  output =  output('instruments', '-s', 'devices').lines
   output = output.select {|s| s.match(simulator_pattern)}.map  do |s|
     s.match(simulator_pattern).captures.first
   end
   output = output.sort
 end
 
-def xcode()
-  paths = `find /Applications -regex '/Applications/Xcode.*\.app' -maxdepth 1`.lines.map(&:strip).sort
-  bundle_versions = paths.map do |path|
-    plist = File.join(path, 'Contents', 'version.plist')
-    bindir = File.join(path, 'Contents', 'Developer', 'usr', 'bin')
-    instruments = File.join(bindir, 'instruments')
-    xcodebuild  = File.join(bindir, 'xcodebuild')
-    { version:       output('defaults', 'read', plist, 'CFBundleShortVersionString'),
-      build_version: output('defaults', 'read', plist, 'ProductBuildVersion'),
-      license_accepted: `#{xcodebuild} -checkFirstLaunchStatus ; echo $?`.to_i == 0,
-      tools_installed: `sudo xcode-select -s #{path} && xcode-select --print-path > /dev/null ; echo $?`.to_i == 0,
-      simulators: simulators(instruments),
-      app_location: path
-    }
-  end
-  bundle_versions
+def xcode
+  version, build = `xcodebuild -version`.lines.map(&:strip)
+  { version: version,
+    build_version: build,
+    license_accepted: `xcodebuild -checkFirstLaunchStatus ; echo $?`.to_i == 0,
+    tools_installed: `xcode-select --print-path > /dev/null ; echo $?`.to_i == 0,
+    simulators: simulators,
+  }
 end
 
 def command_line_tools()
@@ -129,6 +120,17 @@ rescue ArgumentError
   str
 end
 
+# Check if the screen is locked.
+# Run some Python using the system python interpreter, which has access to
+# Quartz (ObjectiveC). This prints a dictionary, which will contain a key
+# 'CGSSessionScreenIsLocked' when the screen is locked, and the key will be
+# absent otherwise. `system` returns true is the command succeeds, and `grep`
+# will return success when it matches.
+# Pipeout to /dev/null to prevent us printing to stdout.
+def screen_locked?
+  system("/usr/bin/python -c 'import sys,Quartz; d=Quartz.CGSessionCopyCurrentDictionary(); print d' | grep CGSSessionScreenIsLocked > /dev/null")
+end
+
 def power_settings()
   #  $ sudo pmset -g
   # Currently in use:
@@ -166,7 +168,8 @@ versions = {
   homebrew: homebrew,
   xcode: xcode,
   power_settings: power_settings,
-  command_line_tools: command_line_tools
+  command_line_tools: command_line_tools,
+  screen_locked: screen_locked?
 }
 
 puts(JSON.pretty_generate(versions))

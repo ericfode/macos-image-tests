@@ -186,6 +186,9 @@
                 "hibernatemode"
             ]
         },
+        "screen_locked": {
+            "type":"boolean"
+        },
         "command_line_tools": {
             "type": "object",
             "properties": {
@@ -220,16 +223,17 @@
         }
     },
     "required": [
-        "image",
+        "command_line_tools",
         "disk",
-        "os",
         "environment",
-        "ruby",
-        "tools",
-        "xcode",
         "homebrew",
+        "image",
+        "os",
         "power_settings",
-        "command_line_tools"
+        "ruby",
+        "screen_locked",
+        "tools",
+        "xcode"
     ],
     "additionalProperties": false
 }

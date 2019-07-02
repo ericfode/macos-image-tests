@@ -86,9 +86,9 @@ title: CircleCI macOS Container Software
     </tbody>
 </table>
 
-<h2 class="underline">Xcode {{ site.data.xcode['version'] }} </h2>
+<h2 class="underline">{{ site.data.xcode['version'] }} </h2>
 
-With Xcode {{ site.data.xcode['version'] }} Build <code>{{ site.data.xcode['build_version'] }}</code> we pre-install the following simulators:
+With {{ site.data.xcode['version'] }} {{ site.data.xcode['build_version'] }} we pre-install the following simulators:
 
 <ul class="simulators">
     {% for sim in site.data.xcode['simulators'] %}
