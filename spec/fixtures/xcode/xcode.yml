@@ -1,6 +1,6 @@
 # TODO - this file is a pointless test
 version: Xcode 11.0
-build_version: Build version 11M337n
+build_version: Build version 11M362v
 simulators:
   - "Apple TV (13.0)"
   - "Apple TV 4K (13.0)"
