@@ -6,6 +6,7 @@ jobs:
       CIRCLE_ARTIFACTS: /tmp/circleci-artifacts
     macos:
       xcode: 11.0.0
+    parallelism: 2
     steps:
       - checkout
       - run: mkdir -p $CIRCLE_ARTIFACTS
